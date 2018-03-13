@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col">
+      <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-outline-primary" id="monatDropdown" ngbDropdownToggle>{{lblDDMonat}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            
+            <button (click)="chNameDropdownMonat($event)"
+            *ngFor="let monat of monate" 
+            class="dropdown-item">{{monat}}</button>
+            
+          </div>
+        </div>
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-outline-primary" id="jahrDropdown" ngbDropdownToggle>{{lblDDJahr}}</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button (click)="chNameDropdownJahr($event)"
+        *ngFor="let year of years" class="dropdown-item">{{year}}</button>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+<div class="row">
+    <app-tabelle-monat></app-tabelle-monat>
+</div>

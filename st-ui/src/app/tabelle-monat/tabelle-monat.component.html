@@ -1,0 +1,36 @@
+<div class="row" style="margin-left: 15px">
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Datum</th>
+          <th>Kommen</th>
+          <th>Gehen</th>
+          <th width="80%">Bemerkung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let eintrag of eintraege | async">
+          <th scope="row">{{eintrag.id}}</th>
+          <td scope="row" style="min-width: 200px;">
+          <input [ngModel]="eintrag.datum | date :'dd.MM.yyyy'" dateFormat="dd.mm.yy"/> 
+          
+          </td>
+          <td scope="row" style="min-width: 200px;">
+            <!--  <p-calendar [ngModel]="eintrag.kommenZeit | date:'dd.MM.yyyy'" [timeOnly]="true"></p-calendar> -->
+            <input  [ngModel]="eintrag.kommenZeit| date : 'HH:mm'"/>
+          </td>
+          <td scope="row" style="min-width: 200px;">
+             <!-- <p-calendar [ngModel]="eintrag.gehenZeit | date:'dd.MM.yyyy HH:mm:ss'" [timeOnly]="true"></p-calendar>-->
+             <input [ngModel]="eintrag.gehenZeit | date : 'HH:mm'"/>
+          </td>
+          <td>
+            <input id="bemInput" type="text" value="{{eintrag.leistung}}" [(ngModel)]="eintrag.leistung" #ctrl="ngModel" style="min-width: 200px;">
+            <button type="button" value="" (click)="updateNote(eintrag)">Speichern</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
