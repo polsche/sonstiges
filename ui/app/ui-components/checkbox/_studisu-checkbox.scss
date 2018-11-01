@@ -1,0 +1,78 @@
+.studisu-checkbox {
+  position: relative;
+  display: inline-block;
+
+  input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    z-index: 2;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    left: 0;
+    margin: 4px 0 0;
+    cursor: pointer;
+    line-height: normal;
+
+    + label {
+      display: inline-block;
+      font-weight: normal;
+      margin: 0px;
+      max-width: 100%;
+      min-width: $checkbox-size;
+      min-height: $checkbox-size;
+      padding-left: 30px;
+      padding-right: 0;
+      margin-bottom: 5px;
+      line-height: 1.4;
+
+      cursor: pointer;
+
+      &::before {
+        display: block;
+        position: absolute;
+        left: 0;
+        width: $checkbox-size;
+        height: $checkbox-size;
+        border-radius: $checkbox-border-radius;
+        border: 2px solid $color-grey-darker;
+        background-color: $color-white;
+        content: "";
+      }
+    }
+
+    &:checked + label::after {
+      @include icon('check', 14px);
+      font-size: 0.8rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: $checkbox-size;
+      color: $color-red;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    &:focus + label::before {
+      border-width: 3px;
+      border-color: $color-checkbox-highlight;
+      box-shadow: 0 0 5px 1px $color-checkbox-highlight;
+    }
+  }
+
+  input[type="checkbox"][disabled],
+  input[type="checkbox"].disabled {
+    cursor: not-allowed;
+
+    + label {
+      cursor: not-allowed;
+    }
+
+    + label::before {
+      border-color: $color-grey;
+    }
+
+    + label::after {
+      color: $color-grey;
+    }
+  }
+}

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xmlns:jsr107='http://www.ehcache.org/v3/jsr107'
+        xsi:schemaLocation="http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd
+		                    http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd">
+
+  <service>
+      <jsr107:defaults enable-management="true" enable-statistics="false"/>
+  </service>
+  
+  <cache-template name="default">
+    <expiry>
+      <ttl unit="hours">6</ttl>
+    </expiry>
+    <heap-store-settings>
+    	<max-object-graph-size>5000</max-object-graph-size>
+    </heap-store-settings>
+    <jsr107:mbeans enable-statistics="false"/>
+  </cache-template>
+
+  <cache alias="studienfelder" uses-template="default">
+    <resources>
+      <!-- ein Mal global -->
+      <heap unit="MB">1</heap>
+    </resources>
+  </cache>
+	
+  <cache alias="studienfachToStudienfeld" uses-template="default">
+    <resources>
+      <!-- ein Mal global -->
+      <heap unit="MB">2</heap>
+    </resources>
+  </cache>
+	
+  <cache alias="studienfeldInformationen" uses-template="default">
+    <resources>
+      <!-- 1 pro Studienfeld - z.Z. gibt es knapp 90 -->
+      <heap unit="MB">10</heap>
+    </resources>
+  </cache>
+	
+  <cache alias="studienfaecher" uses-template="default">
+    <resources>
+      <!-- 
+      		2 Mal pro Studienfach (z.Z gibt es 724)
+      		1 Mal fuer jeden moeglichen Suchbegriff (Autocomplete)
+      		1 Mal für jede Kombination aus Studienfach-DKZ-IDs
+      		(den 2. Fall sollte man vielleicht in einen eigenen Cache auslagern?!)
+      		(den 3. Fall sollte man vielleicht in Einzelabrufe abändern und in einen eigenen Cache auslagern?!)
+       -->
+      <heap unit="MB">50</heap>
+    </resources>
+  </cache>
+
+  <cache alias="studienfachInformationen" uses-template="default">
+    <resources>
+      <!-- 1 pro Studienfach - z.Z gibt es 724 -->
+      <heap unit="MB">50</heap>
+    </resources>
+  </cache>
+
+  <cache alias="datenstand" uses-template="default">
+    <resources>
+      <!-- ein Mal global -->
+      <heap unit="MB">1</heap>
+    </resources>
+  </cache>
+
+  <cache alias="systematik" uses-template="default">
+    <resources>
+      <!-- 
+      		1 Mal fuer HA, 1 Mal für HC
+      		jeweils 1 Mal für alle Untercodenummern (z.Z. 9 fuer HA und 9 fuer HC)
+      		1 Mal pro Studienfeld (z.Z. gibt es knapp 90)
+      -->
+      <heap unit="MB">10</heap>
+    </resources>
+  </cache>
+
+  <cache alias="angeboteanzahl" uses-template="default">
+    <resources>
+      <!-- 1 pro Studienfach - z.Z gibt es 724 -->
+      <heap unit="MB">10</heap>
+    </resources>
+  </cache>
+
+  <cache alias="angeboteliste" uses-template="default">
+    <resources>
+      <!--
+      		1 pro beliebiger Kombination aus Ort, Umkreis und Studienfach-Liste
+      		Wir speichern mal 1000 Eintraege. So wird der Cache nicht zu gross,
+      		reicht aber, um kurz hintereinander gemachte gleiche Anfragen (z.B.
+      		beim Paging) vorraetig zu haben.
+      -->
+      <heap unit="MB">159</heap>
+    </resources>
+    <heap-store-settings>
+    	<max-object-graph-size>100000</max-object-graph-size>
+    </heap-store-settings>
+  </cache>
+
+  <cache alias="angebotinformationen" uses-template="default">
+    <resources>
+      <!--
+      		1 Mal pro Studienangebot
+      		(zu viele um alle zu cachen)
+      -->
+      <heap unit="MB">159</heap>
+    </resources>
+  </cache>
+
+  <cache alias="orte" uses-template="default">
+     <resources>
+       <!--
+       		1 Mal fuer jede PLZ, 1 Mal fuer jedes Orts-Teilwort
+       		(zu viele um alle zu cachen)+71++6
+       	-->
+       <heap unit="MB">30</heap>
+    </resources>
+  </cache>
+
+  <cache alias="signets" uses-template="default">
+    <resources>
+      <!-- 1 Mal pro Bildungsanbieter (z.Z. ca. ?)  -->
+      <heap unit="MB">30</heap>
+    </resources>
+  </cache>
+
+</config>

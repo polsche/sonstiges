@@ -1,0 +1,74 @@
+<div class="ba-result-list">
+  <div class="_studiensuche-ergebnis_ studisu-overlayed" *ngIf="searchResult">
+    <div role="region"
+         [attr.aria-label]="'Ergebnisliste (' + searchResult.items.length + ' von ' + searchResult.maxErgebnisse + ')'"
+         [attr.aria-busy]="loading ? 'true' : 'false'">
+      <div id="ergebniszaehler" class="_ergebniszaehler_">
+        <div *ngIf="searchResult.hasSearched">
+          <h2 aria-atomic="true" class="__anzahl_" id="ergebniszaehlerMitErgebnis" aria-live="polite">
+            <span class="sr-only">Jetzt </span>
+            <span id="ergebniszaehlerMitErgebnisText">
+                <span [innerHTML]="searchResult.maxErgebnisse"></span> {{' Suchergebnis' + (searchResult.maxErgebnisse != 1 ? 'se' : '')}}
+              </span>
+            <span class="sr-only"> vorhanden.</span>
+            <span id="visited_icon" title="Bereits angesehen" class="ba-icon ba-icon-preview-after __visited_icon_">
+              <div id="visited_badge" class="_visited-badge_">
+                <span>{{bereitsAngesehenInPage}}</span>
+                <span class="sr-only"> {{bereitsAngesehenInPage != 1 ? 'Angebote' : 'Angebot'}} bereits angesehen</span>
+              </div>
+            </span>
+          </h2>
+          <div id="keinePassendenErgebnisse" *ngIf="searchResult.items.length == 0"
+               [innerHTML]="keinePassendenErgebnisse"></div>
+        </div>
+        <div *ngIf="searchResult.items.length == 0 && !searchResult.hasSearched">
+          <h2 aria-atomic="true" class="__anzahl_" id="ergebniszaehlerOhneErgebnis"
+              [innerHTML]="keineSuchkriterienAngegeben" aria-live="polite"></h2>
+          <div id="mindestensStudienbereichErforderlich" [innerHTML]="">
+            <p>{{mindestensStudienbereichErforderlich}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ba-result-list" *ngIf="loading || searchResult.items.length > 0">
+  <div class="_studiensuche-ergebnis_ studisu-overlayed">
+    <div class="studisu-overlay" *ngIf="loading" [@loadingState]="loading ? 'loading' : 'finished'"
+         id="studisu-overlay-text" style="width: calc(40px + 100%);">
+      <ba-studisu-load-spinner size="66.667"></ba-studisu-load-spinner>
+    </div>
+    <div role="region"
+         [attr.aria-label]="'Ergebnisliste (' + searchResult.items.length + ' von ' + searchResult.maxErgebnisse + ')'"
+         [attr.aria-busy]="loading ? 'true' : 'false'">
+      <div class="__liste_">
+        <ol aria-label="Liste der Suchergebnisse" class="ba-result-list-results" id="ergebnisliste">
+          <li *ngFor="let studienangebot of searchResult.items">
+            <ba-studisu-studienangebot [studienangebot]="studienangebot"></ba-studisu-studienangebot>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="weitere-angebote" class="text-center"
+     *ngIf="searchResult.maxErgebnisse > searchResult.items.length && fehler != true"
+     role="article" aria-labelledby="weitere-angebote-button">
+  <button id="weitere-angebote-button" name="weitere-angebote" class="ba-btn ba-btn-primary"
+          title="Weitere Angebote abrufen"
+          (click)="loadAngebote()">Weitere Angebote abrufen
+  </button>
+</div>
+<div class="print-only weitere-angebote-print" aria-hidden="true">
+  <span>Weitere Angebote abrufen</span>
+</div>
+<article class="_studienangebot_ ba-teaser ba-fehlermeldung" *ngIf="fehler == true">
+  <div class="ba-fehlermeldung">
+    <i class="ba-icon ba-icon-error-before"></i>
+    <p [innerHTML]="fehlerLadenWeitereAngebote"></p>
+    <a href="javascript:void(0)" (click)="loadAngebote()">Erneut Versuchen</a>
+  </div>
+</article>
+

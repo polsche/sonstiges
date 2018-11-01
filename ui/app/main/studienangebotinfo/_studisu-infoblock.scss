@@ -1,0 +1,21 @@
+.panel-body > p:last-child,
+.panel-body > div:last-child, p:last-child {
+  margin-bottom: 0;
+}
+
+.ba-accordion .panel-title .ba-icon:before {
+  position: absolute;
+  font-size: 30px;
+  top: 13px;
+  left: 6px;
+}
+
+.ba-accordion .panel-title {
+  white-space: nowrap;
+}
+
+.ba-accordion .panel-title > a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 44px;
+}

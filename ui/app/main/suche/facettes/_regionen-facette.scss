@@ -1,0 +1,332 @@
+.studisu-scope-switcher {
+  text-align: center;
+  margin-bottom: 10px;
+  .ba-btn-group {
+    & > input[type=radio] + label {
+      width: 7em;
+      font-size: 0.9rem;
+      padding: 2px;
+      height: 32px;
+    }
+  }
+}
+
+$animation-time: 1.2s; // Laufzeit der Kartenanimation
+
+// Einstellungen für die DIVs beider Karten
+.studisu-map {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  background: transparent;
+  animation-duration: $animation-time;
+  animation-fill-mode: forwards;
+  &.studisu-map-national {
+    transform-origin: 52.1% 44.3%;
+  }
+  &.studisu-map-international {
+    transform-origin: 51.89% 43%;
+  }
+  svg {
+    animation-duration: 0s;
+  }
+}
+
+// Sichtbarkeit "National" => Deutschlandkarte angezeigt (außerhalb der Animationen)
+.national {
+  .studisu-map-national {
+    z-index: 2;
+  }
+  .studisu-map-international {
+    z-index: 1;
+    visibility: hidden;
+  }
+}
+
+// Sichtbarkeit "International" => Europakarte angezeigt (außerhalb der Animationen)
+.international {
+  .studisu-map-international {
+    z-index: 2;
+  }
+  .studisu-map-national {
+    z-index: 1;
+    visibility: hidden;
+  }
+}
+
+// Sichtbarkeit "National" => Deutschlandkarte angezeigt (für Animationen)
+.animated.national {
+  .studisu-map-national {
+    animation-name: map-national-on;
+    z-index: 1;
+    text.text, rect {
+      animation-duration: $animation-time;
+      animation-name: map-hide-legends;
+    }
+  }
+  .studisu-map-international {
+    z-index: 2;
+    visibility: visible;
+    animation-name: map-international-off;
+    text.text, rect {
+      visibility: hidden;
+    }
+  }
+}
+
+// Sichtbarkeit "International" => Europakarte angezeigt (für Animationen)
+.animated.international {
+  .studisu-map-international {
+    animation-name: map-international-on;
+    text.text, rect {
+      animation-name: map-hide-legends;
+      animation-duration: $animation-time;
+    }
+  }
+  .studisu-map-national {
+    visibility: visible;
+    animation-name: map-national-off;
+    text.text, rect {
+      visibility: hidden;
+    }
+  }
+}
+
+// Versteckt die Legenden während der Animationen
+@keyframes map-hide-legends {
+  0% { opacity: 0; }
+  90% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+// Animation der Deutschlandkarte zum Umschalten _auf_ die Deutschlandkarte
+@keyframes map-national-on {
+  0% {
+    opacity: 0;
+    transform: scale(0.448);
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+// Animation der Deutschlandkarte zum Umschalten _auf_ die Europakarte
+@keyframes map-national-off {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.448);
+  }
+}
+
+// Animation der Europakarte zum Umschalten _auf_ die Europakarte
+@keyframes map-international-on {
+  0% {
+    opacity: 0;
+    transform: scale(2.24);
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+// Animation der Europakarte zum Umschalten _auf_ die Deutschlandkarte
+@keyframes map-international-off {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.24);
+  }
+}
+
+.map-group {
+  // Disabled state == default
+  .state {
+    fill: $color-grey-light;
+    stroke: $color-white;
+    stroke-width: 0.6;
+  }
+  .box {
+    fill: $color-white;
+    stroke: $color-grey;
+    stroke-width: 0.35px;
+  }
+  .text {
+    font-size: 12px;
+    text-align: center;
+    fill: $color-grey;
+    text-anchor: middle;
+  }
+  .comment1,
+  .comment2 {
+    display: none;
+    width: 253px;
+    height: 32px;
+    alignment-baseline: middle;
+    text-anchor: middle;
+  }
+  .plaque-outer {
+    fill: $color-white;
+    stroke: $color-grey-light;
+    stroke-width: 0.4;
+  }
+  .plaque-inner {
+    fill: $color-white;
+    stroke: $color-grey-light;
+    stroke-width: 0.62;
+  }
+  &:hover {
+    cursor: pointer;
+    .comment1, .comment2 {
+      display: block;
+    }
+  }
+  &.checkbox-focus {
+    .comment1, .comment2 {
+      display: block;
+    }
+    .box,
+    .plaque-outer,
+    .state {
+      animation-duration: 0s;
+      filter: url("#boxshadow");
+      stroke: #8b9dda ! important;
+      stroke-width: 1;
+    }
+    text.text {
+      animation-duration: 0s;
+    }
+  }
+
+  // Enabled state: hover allowed
+  &.enabled {
+    .state {
+      fill: $color-grey;
+      &.germany {
+        fill: $color-grey-darker;
+      }
+    }
+    .plaque-outer {
+      stroke: $color-blue-darkest;
+    }
+    .box,
+    .plaque-inner {
+      stroke: $color-blue-darkest;
+    }
+    .box {
+      fill: $color-grey-light;
+    }
+    .text {
+      fill: $color-blue-darkest;
+    }
+
+    // Hover in enabled state
+    &:hover {
+      .state {
+        fill: $color-blue-darkest;
+      }
+      .box,
+      .plaque-inner {
+        fill: $color-blue-darkest;
+        &.germany {
+          fill: $color-white;
+        }
+      }
+      .text {
+        fill: $color-white;
+        stroke: $color-white;
+        stroke-width: 0.1;
+        &.germany {
+          fill: $color-blue-darkest;
+          stroke: $color-blue-darkest;
+        }
+      }
+    }
+  }
+  // Selected state: hover allowed
+  &.selected {
+    .state {
+      fill: $color-red;
+    }
+    .plaque-outer {
+      stroke: $color-blue-darkest;
+    }
+    .box,
+    .plaque-inner {
+      fill: $color-red;
+      stroke: $color-red;
+    }
+    .text {
+      fill: $color-white;
+      stroke: $color-white;
+      stroke-width: 0.1;
+    }
+
+    // Hover in selected state
+    &:hover {
+      .state {
+        fill: $color-red-dark;
+      }
+      .box,
+      .plaque-inner {
+        fill: $color-red-dark;
+        stroke: $color-red-dark;
+      }
+    }
+  }
+}
+
+// Hover + checkbox-focus may never appear at the same time for different map-groups!
+.checkbox-focus .map-group {
+  &:hover {
+    cursor: default;
+    .comment1, .comment2 {
+      display: none;
+    }
+  }
+  &.checkbox-focus:hover {
+    .comment1, .comment2 {
+      display: block;
+    }
+  }
+}
+
+// Reduce the bottom padding for the tile since the map provides enough space.
+.ba-filterfacet-bundesland {
+  padding-bottom: 5px;
+  div#Bundesland_keineErgebnisse {
+    margin-bottom: 20px;
+  }
+}
+
+// Hide the actual checkboxes from view while leaving them in the DOM and tab-index.
+#BundeslandContent {
+  padding-bottom: 5px;
+  margin-bottom: -10px;
+  .studisu-bl-checkbox {
+    position: absolute;
+    left: -1000px;
+  }
+}
+
+@include tablet-max() {
+  #BundeslandContent.ba-filterfacet-content {
+    padding: 20px 10px;
+  }
+}

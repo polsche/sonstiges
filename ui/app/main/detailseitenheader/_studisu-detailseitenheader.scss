@@ -1,0 +1,40 @@
+ba-studisu-detailseitenheader {
+  .ba-studisu-detailseitenheader{
+    background-color: $color-white;
+  }
+  h2{ 
+    color: $color-red-dark;
+    border-bottom: 2px solid $color-semibright;
+    padding-bottom: 0.5rem;
+  }
+  @media (min-width: 1024px) {
+    .ba-navbar-header, .ba-content-header {
+      padding-top: 60px;
+      padding-bottom: 50px;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1023px){
+    .ba-navbar-header, .ba-content-header {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  .studienanbieter{
+    float:left;
+    margin: 0 1.25rem 1.25rem 1.25rem;
+  }
+  .studienort{
+    float:right;
+    margin: 0 1.25rem 1.25rem 1.25rem;
+  }
+  .clear{
+    clear: both;
+  }
+  
+  @include phablet-max() {
+    .ba-with-image.ba-navbar-header p, .ba-content-header.ba-with-image p {
+      background-color: $color-white;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<ba-studisu-header class="print-hide">
+  <h1 #ueberschrift aria-live="polite" tabindex="-1" id="ueberschrift" class="studisu-ueberschrift-suche">Studiensuche</h1>
+</ba-studisu-header>
+
+<div class="ba-container">
+  <div class="row">
+    <div class="col-sm-12">
+      <ba-studisu-suche-form></ba-studisu-suche-form>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="showStoeberwelten()">
+    <div class="col-lg-12">
+      <ba-studisu-stoeberwelten></ba-studisu-stoeberwelten>
+    </div>
+  </div>
+  
+  <div class="row" *ngIf="!showStoeberwelten()">
+    <div class="col-lg-3 col-md-12">
+      <ba-studisu-reset-all-facettes class="desktop" [searchResult]="searchResult"></ba-studisu-reset-all-facettes>
+      <ba-studisu-suche-facettes [searchResult]="searchResult"></ba-studisu-suche-facettes>
+    </div>
+
+    <div class="col-lg-9 col-md-12">
+      <ba-studisu-reset-all-facettes class="mobile" [searchResult]="searchResult"></ba-studisu-reset-all-facettes>
+      <ba-studisu-suche-result [searchResult]="searchResult"></ba-studisu-suche-result>
+    </div>
+  </div>
+
+  <ba-studisu-navtabbar></ba-studisu-navtabbar>
+</div>

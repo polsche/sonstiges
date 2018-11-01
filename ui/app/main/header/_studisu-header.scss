@@ -1,0 +1,54 @@
+ba-studisu-header {
+  h1:focus{
+    outline: none;
+  }
+  @include phablet-max() {
+    .ba-with-image.ba-navbar-header p, .ba-content-header.ba-with-image p {
+      background-color: $color-white;
+    }
+  }
+}
+
+.studisu-header-background {
+  position: relative;
+  background-position-y: top;
+  background-position-x: center;
+  // STUDISU-328
+  // Sonderfall: Falls der Header auf der Seite Studienfeld-Info erscheint, soll die Position zentriert sein
+  .__studienfeldinfo_ & {
+    background-position-x: center;
+  }
+
+  background-size: cover;
+  background-image: url("../assets/images/bg-large-header-suche.jpg");
+
+  //	ab 1024px
+  @include desktop-min() {
+    margin-bottom: 20px;
+  }
+
+  .studisu-background-filter {
+    position: absolute;
+    height: calc(100% - 8px);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .ba-header-fix-ie-flexbug {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.studisu-header-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}

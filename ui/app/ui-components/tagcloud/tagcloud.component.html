@@ -1,0 +1,33 @@
+<ul [attr.aria-label]="srListTitle" 
+    aria-live="polite" 
+    aria-relevant="additions">
+  <li *ngFor="let item of tagcloudListe | slice:0:getVisibleItemCount();let i=index"
+      [attr.id]="'tagCloudElement_' + i + '_' + item.key" 
+      class="ba-studisu-tag"
+      (click)="onClick(item)" 
+      title="{{getClickTooltip(item)}}">
+
+    <i *ngIf="item.icon" class="ba-icon ba-icon-{{item.icon}}-after"></i>
+    <button class="ba-studisu-tag-text" [class.no-link]="noLink(item)" [attr.title]="getClickTooltip(item)" innerHtml="{{getName(item)}}" [attr.role]="noLink(item) ? null : 'link'"></button>
+    <button class="ba-studisu-tag-remove" (click)="onRemove(item)" [attr.title]="getRemoveTooltip(item)"></button>
+  </li>
+</ul>
+
+<ba-studisu-collapsable *ngIf="maxTagsVisible > -1 && tagcloudListe && tagcloudListe.length > maxTagsVisible"
+                        labelCollapsed="gewählte Studienbereiche anzeigen ({{tagcloudListe.length - maxTagsVisible}})"
+                        labelDisclosed="gewählte Studienbereiche ausblenden">
+  <ul [attr.aria-label]="srListTitle" 
+      aria-live="polite" 
+      aria-relevant="additions">
+    <li *ngFor="let item of (tagcloudListe | slice:maxTagsVisible );let i=index"
+          [attr.id]="'tagCloudElement_' + (shiftedIndex(i)) + '_' + item.key" 
+          class="ba-studisu-tag" 
+          (click)="onClick(item)" 
+          title="{{getClickTooltip(item)}}">
+
+      <i *ngIf="item.icon" class="ba-icon ba-icon-{{item.icon}}-after"></i>
+      <button class="ba-studisu-tag-text" [class.no-link]="noLink(item)" title="{{getClickTooltip(item)}}" innerHtml="{{getName(item)}}" role="link"></button>
+      <button class="ba-studisu-tag-remove" (click)="onRemove(item)" title="{{getRemoveTooltip(item)}}" role="button"></button>
+    </li>
+  </ul>
+</ba-studisu-collapsable>

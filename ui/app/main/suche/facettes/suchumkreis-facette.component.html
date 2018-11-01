@@ -1,0 +1,56 @@
+<!--desktop -->
+<fieldset class="ba-filterfacet print-hide" *ngIf="!showMobile">
+  <div class="ba-filterfacet-top">
+    <legend class="ba-filterfacet-top-headline{{icon ? (' ba-icon ba-icon-'+icon+'-before') : ''}}" id="SuchumkreisLegende">Suchumkreis
+    </legend>
+  </div>
+  <ba-studisu-inputrange name="Suchumkreis" id="SuchumkreisSlider" [disabled]="disabled" [min]="min" [max]="max" [step]="step"
+    [value]="suchumkreis" [ariaValueNow]="getCurrentSelection()" [ariaValueText]="'Gewählter Umkreis: ' + getCurrentSelection()"
+    (onchange)="onChange($event)">
+  </ba-studisu-inputrange>
+
+  <div class="studisu-suchumkreis-output" id="GewaehlterUmkreis" aria-hidden="true">
+    Gew&auml;hlter Umkreis: {{getCurrentSelection()}}
+  </div>
+</fieldset>
+<!--mobile-->
+<fieldset class="ba-filterfacet print-hide" *ngIf="showMobile">
+  <legend id="SuchumkreisLegendeMobile" class="ba-filterfacet-top-headline{{hidden ? ('') : ' active'}}">
+    <a class="ba-filterfacet-top-headline-link" (click)="toggleDisplay()">
+      <span
+        class="{{disabled ? '':'selected '}} {{hidden ? ('ba-icon ba-icon-chevron-down-after') : 'ba-icon ba-icon-chevron-up-after'}}">Suchumkreis</span>
+      <i *ngIf="!hidden"></i>
+    </a>
+  </legend>
+  <div id="SuchumkreisContent" class="ba-filterfacet-content " *ngIf="!hidden">
+    <div class="studisu-umkreis-content">
+      <div class="studisu-suchumkreis-output" id="GewaehlterUmkreisMobile">
+        Gew&auml;hlter Umkreis:&nbsp;
+        <select [value]="suchumkreis" (change)="onChange($event.target.value)" [disabled]="disabled">
+          <option *ngFor="let item of getRange();" [selected]="item.value === suchumkreis" [value]="item.value">
+            {{item.label}}
+          </option>
+        </select>
+      </div>
+    </div>
+   </div>
+</fieldset>
+
+<!-- druck version -->
+<fieldset class="print-only" aria-hidden="true">
+  <legend id="SuchumkreisLegendePrint">
+    <span>Suchumkreis</span>
+  </legend>
+  <div id="SuchumkreisContentPrint" class="ba-filterfacet-content-print">
+    <div class="studisu-umkreis-content">
+      <ba-studisu-inputrange name="Suchumkreis" class="print-hide" id="SuchumkreisSliderMobile" [disabled]="disabled" [min]="min"
+        [max]="max" [step]="step" [value]="suchumkreis" [ariaValueNow]="getCurrentSelection()" [ariaValueText]="getCurrentSelection()"
+        (onchange)="onChange($event)">
+      </ba-studisu-inputrange>
+
+      <div class="studisu-suchumkreis-output" id="GewaehlterUmkreisPrint">
+        Gew&auml;hlter Umkreis: {{getCurrentSelection()}}
+      </div>
+    </div>
+  </div>
+</fieldset>

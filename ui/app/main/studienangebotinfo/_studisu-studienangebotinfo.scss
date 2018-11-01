@@ -1,0 +1,321 @@
+.studisu-studienangebot-info {
+  // Wir nutzen die "ba-card", um die einzelnen Abschnitt zu gestalten, aber sie dürfen nicht zentriert sein...
+  .ba-card {
+    text-align: left;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+}
+
+header.detailseite-header {
+  background-color: $color-white;
+
+  .titel-zusatz::before {
+    display: block;
+    width: 60%;
+    height: 2px;
+    margin: 0.46667rem auto 0.73333rem auto;
+    background-color: #DDE3E8;
+    content: '';
+  }
+
+  h2 {
+    color: $color-red-dark;
+  }
+
+  p {
+    a {
+      font-size: 14px;
+      color: $color-blue-dark !important; // Überschreibt Standard-Stil für Buttons
+      border-color: $color-blue-dark !important;
+    }
+  }
+
+  .__studienangebotbezeichnung_, .studisu-studienangebot-info {
+    a:hover {
+      color: $color-white !important; // Andernfalls überschrieben von DPL-Stil!
+    }
+    @include phablet-max() {
+      display: none;
+    }
+  }
+
+  @include tablet-max() {
+    padding-bottom: 1rem;
+  }
+}
+
+.studisu-studienangebot-info {
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  .studienangebot-info-content-inhaltsspalte {
+
+    margin: 1.2rem 0;
+
+    @include phablet-max() {
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
+
+    .studienangebot-info-content-inhaltsspalte-links {
+      @include tablet-min() {
+
+      }
+    }
+
+    .studienangebot-info-content-inhaltsspalte-rechts {
+      -moz-hyphens: manual;
+      hyphens: manual;
+
+      @include tablet-min() {
+        padding: 0 10px 0 10px;
+        margin-right: -10px;
+      }
+
+      @include phablet-max{
+        margin-top: 0;
+      }
+    }
+    .studienangebot-info-content-inhaltsspalte-rechts-unten {
+      display: inline-block;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    h3.ba-icon::before {
+      margin-right: 0px;
+      float: left;
+    }
+
+    .zugangsbedingungen-liste{
+      margin-bottom: 10px;
+    }
+
+    .studieninhalte-text{
+      margin-bottom: 10px;
+    }
+  }
+
+  ba-studisu-navtabbar section {
+    margin-top: 20px;
+  }
+
+  .ba-card {
+    margin: 20px 0 20px 0;
+    padding: 25px 20px;
+    @include tablet-max() {
+      margin: 0 -20px 20px -20px;
+      padding: 10px 20px;
+    }
+    @include phablet-max() {
+      margin: 0 -10px 20px -10px;
+    }
+  }
+
+  .ba-accordion .panel-title .ba-icon:before {
+    font-size: 28px;
+    top: 7px; // Positioniert das Icon in den Akkordeons vertikal in der Mitte
+  }
+
+  .ba-card-inhalte {
+    content: "";
+    display: inline-block;
+    background-size: 1.6rem 1.6rem;
+    background-repeat: no-repeat;
+    float: left;
+    margin-right: 0px;
+    width: 1.6rem;
+    height: 1.6rem;
+
+    @include phablet-max() {
+      width: 2rem;
+      height: 2rem;
+      background-size: 2rem 2rem;
+    }
+  }
+
+  .ba-icon-print {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-left: -1.6rem;
+    float: left;
+  }
+
+  // Für Print muss das SVG als Content referenziert werden.
+  img.ba-icon-studieninhalte {
+    @extend .ba-icon-print;
+    content: url('../assets/icons/BA-Studieninhalte.svg');
+  }
+  .ba-icon-studieninhalte:before {
+    @extend .ba-card-inhalte;
+    background-image: url('../assets/icons/BA-Studieninhalte.svg');
+  }
+
+  img.ba-icon-studiengangsinfo {
+    @extend .ba-icon-print;
+    content: url('../assets/icons/BA-Studiengangsinfo.svg');
+  }
+  .ba-icon-studiengangsinfo:before {
+    @extend .ba-card-inhalte;
+    background-image: url('../assets/icons/BA-Studiengangsinfo.svg');
+  }
+
+  img.ba-icon-zugangsinfo {
+    @extend .ba-icon-print;
+    content: url('../assets/icons/BA-Zugangsinfo.svg');
+  }
+  .ba-icon-zugangsinfo:before {
+    @extend .ba-card-inhalte;
+    background-image: url('../assets/icons/BA-Zugangsinfo.svg');
+  }
+
+  .studisu-content-block {
+    background-color: $color-white;
+
+    @include tablet-min() {
+      padding: 20px;
+      margin-bottom: 10px;
+
+      .ueberschrift {
+        margin-top: 0.66rem;
+        margin-left: 2.66rem;
+      }
+
+    }
+    i.link-out {
+      &:before {
+        @include icon('linkout', 15px);
+        margin-right: 4px;
+        margin-bottom: 3px;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .btn-detail {
+    bottom: 15px;
+    height: 31px;
+    padding: 5px 15px;
+    min-width: 0;
+    margin-top: 30px;
+    margin-bottom: -10px;
+  }
+
+  .btn-abstand {
+    @include tablet-min{
+      margin-bottom: -15px;
+    }
+  }
+
+  .studisu-content-block-rechts {
+    @extend .studisu-content-block;
+    @media (min-width: 80em) {
+      h3 {
+        white-space: nowrap;
+      }
+    }
+    @include desktop-min{
+      margin-bottom: 0px;
+    }
+    @include tablet-max{
+      hr {
+        display: none;
+      }
+    }
+  }
+
+  .studisu-content-block-transparent {
+    @extend .studisu-content-block;
+    background: transparent;
+  }
+
+  h3.ba-icon::before {
+    margin-right: 10px;
+  }
+  h3.studisu-title {
+    color: $color-red;
+  }
+  hr.studisu-angebot-bottom-border {
+    border-top: 1px solid $color-grey-light;
+    @include phablet-max() {
+        display: none;
+    }
+  }
+  hr.studisu-content-border {
+    border-top: 1px solid $color-grey-light;
+    margin-bottom: -10px;
+  }
+  .studisu-label {
+    color: $color-blue-dark;
+    font-weight: bold;
+  }
+  .studisu-html-content {
+    margin-bottom: 10px;
+  }
+  @include tablet-max() {
+    .ba-container {
+      padding-top: 20px;
+    }
+  }
+  .__tags_ {
+    padding: 12px 0px 0px 0px;
+    @include pseudo-tags();
+  }
+
+  p.studisu-angebot-hyphens {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
+
+  ._studienangebot_linktags {
+    @extend .col-sm-12;
+    .linktag {
+      display: inline-block;
+      margin: 0 0.5rem 0.5rem 0.5rem;
+      &.linktag_osa {
+        background-image: url("../assets/images/osa.png");
+        width: 98px;
+        height: 32px;
+      }
+      &.linktag_studicheck {
+        background-image: url("../assets/images/studicheck.png");
+        width: 154px;
+        height: 29px;
+      }
+    }
+  }
+}
+
+.studisu-hrk-logo {
+  display: inline-block;
+  margin-bottom: 12px;
+  margin-left:20px;
+  margin-top: 10px;
+  img {
+    display: block;
+    height: auto;
+    max-width: 100%
+  }
+}
+
+
+a.text_ohne_dekoration {
+  text-decoration: none;
+}
+
+img.studicheck_logo_margin_top {
+  margin-top: -6px;
+}
+
+.ba-filterfacet-info {
+  display: inline-block;
+  margin-left: 0.3rem;
+  border: 0;
+  background-color: transparent;
+  &.ba-icon-info-after {
+    font-size: 1.3rem;
+  }
+}

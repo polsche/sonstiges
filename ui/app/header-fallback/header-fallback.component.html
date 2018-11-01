@@ -1,0 +1,138 @@
+<header class="row navbar ba-header" role="banner">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+            data-target="#ba-main-navigation" data-fbz="Header_Burger_Menu"
+            aria-expanded="false" aria-controls="ba-main-navigation">
+      <span class="sr-only">Navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand ba-header-logo" href="{{conf.baseUrlContent}}" data-fbz="Header_BA_Icon"
+       title="Zur Startseite der Bundesagentur für Arbeit">
+      <span class="sr-only">Bundesagentur für Arbeit</span>
+    </a>
+    <a class="ba-mobile-search" href="{{conf.baseUrlMetasuche}}" data-fbz="Header_Suche_Link"
+       title="Öffnet das Suchfeld"><span class="ba-icon ba-icon-search-after"
+                                         data-fbz="Header_Suche_Icon"
+                                         title="Öffnet das Suchfeld"></span>
+    </a>
+  </div>
+  <div id="ba-main-navigation" class="navbar-collapse collapse ba-main-navigation">
+    <button type="button"
+            class="ba-menu-close hidden-md hidden-lg ba-icon ba-icon-close-before"
+            data-toggle="collapse"
+            data-target="#ba-main-navigation"
+            aria-expanded="false"
+            aria-label="Schließen"></button>
+    <ul class="nav navbar-nav navbar-right ba-nav-top">
+      <li class="ba-slidemenu ba-lebenslagen hidden-md hidden-lg">
+        <a href="javascript:;" data-fbz="Header_Lebenslagen_Link" class="ba-header-dropdown-toggle"
+           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+          <span class="ba-icon ba-icon-career-track-before" data-fbz="Header_Lebenslagen_Icon"
+                title="Lebenslagen"></span>
+          Lebenslagen
+        </a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-header">
+                <span>
+                <span class="ba-icon ba-icon ba-icon-career-track-before"></span>
+                Lebenslagen
+                <span class="ba-icon ba-icon-chevron-down-after"></span>
+                </span>
+          </li>
+          <li>
+            <a data-fbz="Header_Lebenslagen_1" href="{{conf.baseUrlContent}}&#x2F;arbeitslos-arbeit-finden">
+              <span class="ba-icon ba-icon-work-before"></span>
+              Arbeitslos und Arbeit finden
+            </a>
+          </li>
+          <li>
+            <a data-fbz="Header_Lebenslagen_2" href="{{conf.baseUrlContent}}&#x2F;schule-ausbildung-studium">
+              <span class="ba-icon ba-icon-writing-before"></span>
+              Schule, Ausbildung und Studium
+            </a>
+          </li>
+          <li>
+            <a data-fbz="Header_Lebenslagen_3" href="{{conf.baseUrlContent}}&#x2F;familie-kinder">
+              <span class="ba-icon ba-icon-people-before"></span>
+              Familie und Kinder
+            </a>
+          </li>
+          <li>
+            <a data-fbz="Header_Lebenslagen_4" href="{{conf.baseUrlContent}}&#x2F;menschen-mit-behinderungen">
+              <span class="ba-icon ba-icon-comeback-before"></span>
+              Menschen mit Behinderungen
+            </a>
+          </li>
+          <li>
+            <a data-fbz="Header_Lebenslagen_5" href="{{conf.baseUrlContent}}&#x2F;karriere-und-weiterbildung">
+              <span class="ba-icon ba-icon-career-track-before"></span>
+              Karriere und Weiterbildung
+            </a>
+          </li>
+          <li>
+            <a data-fbz="Header_Lebenslagen_6" href="{{conf.baseUrlContent}}&#x2F;fuer-menschen-aus-dem-ausland">
+              <span class="ba-icon ba-icon-work-in-germany-before"></span>
+              Für Menschen aus dem Ausland
+            </a>
+
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="{{conf.baseUrlContent}}&#x2F;leichte-sprache" data-fbz="Header_Leichte_Sprache_Link" class="">
+          <span class="ba-icon ba-icon-simple-language-before" data-fbz="Header_Leichte_Sprache_Icon"></span>
+          Leichte Sprache
+        </a>
+      </li>
+      <li>
+        <a href="{{conf.baseUrlContent}}&#x2F;gebaerdensprache" data-fbz="Header_Gebaerdensprache_Link" class="">
+          <span class="ba-icon ba-icon-sign-language-before" data-fbz="Header_Gebaerdensprache_Icon"></span>
+          Gebärdensprache
+        </a>
+      </li>
+      <li class="ba-slidemenu dropdown invisible">
+        <a href="javascript:;" data-fbz="Header_Sprache_Dropdown" class="ba-header-dropdown-toggle"
+           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <span class="ba-icon ba-icon-global-before" data-fbz="Header_Sprache_Icon" title="Sprachauswahl"></span>
+          Sprache
+        </a>
+        <ul class="dropdown-menu">
+          <li class="dropdown-header">
+                <span>
+                <span class="ba-icon ba-icon-global-before"></span>Sprache
+                  <span class="ba-icon ba-icon-chevron-down-after"></span>
+                </span>
+          </li>
+          <li>
+            <a data-fbz="" href="&#x2F;">Deutsch<span class="sr-only">(aktuelle Auswahl)</span>
+            </a>
+          </li>
+          <li>
+            <a data-fbz="" href="&#x2F;en">English</a>
+          </li>
+          <li>
+            <a data-fbz="" href="&#x2F;en">Français</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right ba-nav-service">
+      <li>
+        <a href="{{conf.baseUrlContent}}&#x2F;meine-eservices" data-fbz="Header_meineeservices_Link"
+           class="ba-main-navigation-primary-a ba-header-profillink">
+          <span>Meine eServices</span>
+          <span class="ba-icon ba-icon-eservices-after" data-fbz="Header_meineeservices_Icon"></span>
+        </a>
+      </li>
+      <li class="ba-desktop-search">
+        <a href="{{conf.baseUrlMetasuche}}" data-fbz="Header_Suche_Link" class="">
+          <span>Suche</span>
+          <span class="ba-icon ba-icon-search-after"></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+<!-- v3 -->

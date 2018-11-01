@@ -1,0 +1,29 @@
+<div class="form-group">
+  <ba-studisu-inputtext-autocomplete
+    [(model)]="studienfach"
+    placeholder="{{placeholderText}}"
+    [placeholderDisabled]="placeholderDisabledText"
+    name="studienfachsuche"
+    id="Suche-Studienfach"
+    [disabled]="isMaxParameterCountExceeded"
+    titleText="Studienfach"
+    ariaLabel="Studienfach"
+    [suggestionOracle]="inputObservable"
+    styleClass="studisu-suche-studienfach ba-icon ba-icon-learning-before"
+    (onSubmit)="onSubmit($event)">
+  </ba-studisu-inputtext-autocomplete>
+
+  <div class="print-only" aria-hidden="true">
+    <h3>Was?</h3>
+    <span>Studienfach</span>
+  </div>
+  <ba-studisu-tagcloud
+    id="studienbereich_tagcloud"
+    srListTitle="Gew&auml;hltes Studienfach"
+    [tagcloudListe]="tagCloudItems"
+    (tagcloudListeClick)="studienfelderDelegate.clickHandler($event);"
+    (tagcloudListeRemove)="studienfelderDelegate.remove($event)"
+    removeTemplate="{{studienfelderDelegate.removeTooltip}}"
+    maxTagsVisible="3">
+  </ba-studisu-tagcloud>
+</div>

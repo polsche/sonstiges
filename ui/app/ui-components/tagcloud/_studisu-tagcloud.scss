@@ -1,0 +1,95 @@
+// Basiert auf _tags.scss der DPL
+.ba-studisu-tag {
+  display: inline-flex;
+
+  height: calc-rem(40px);
+  max-width: 100%;
+
+  margin-top: calc-rem(8px);
+  margin-right: calc-rem(8px);
+  padding: calc-rem(5px) calc-rem(10px);
+  border: 1px solid $color-grey-darker;
+  border-radius: 4px;
+
+  background-color: $color-grey-light;
+
+  color: $color-blue-dark;
+  font-size: calc-rem(16px);
+  line-height: calc-rem(28px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-blue-dark;
+    text-decoration: none;
+    }
+
+  &-text {
+    font-family: map-get($font-semibold, 'fontFamily');
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border:none;
+    background-color: $color-grey-light;
+    text-align: left;
+  }
+
+  &-text:hover {
+    text-decoration: underline;
+    cursor: pointer;
+
+    &.no-link {
+      text-decoration: none;
+      cursor: default;
+    }
+  }
+
+  &-remove {
+    font-family: map-get($font-semibold, 'fontFamily');
+    margin-left: calc-rem(8px);
+    border:none;
+    background-color: $color-grey-light;
+  }
+
+  &-remove:hover {
+    cursor: pointer;
+    color: $color-red-dark;
+  }
+
+  &-remove:after {
+    @include icon('close', 16px);
+    padding-left: calc-rem(8px);
+    border-left: 1px solid $color-grey;
+    margin-bottom: 2px;
+  }
+
+  .ba-icon {
+    position: relative;
+    margin-right: calc-rem(8px);
+    // Orts-Tags brauchen etwas weniger Breite
+    &.ba-icon-location-after {
+      margin: 0 calc-rem(4px) 0 calc-rem(-4px);
+    }
+  }
+
+  .ba-icon:after {
+    font-size: calc-rem(26px);
+  }
+
+  @include tablet-min() {
+    margin-right: calc-rem(16px);
+  }
+
+}
+
+ba-studisu-tagcloud {
+  ul {
+    padding-left: 0;
+    margin: 0;
+    li {
+      margin-bottom: 0;
+    }
+  }
+}

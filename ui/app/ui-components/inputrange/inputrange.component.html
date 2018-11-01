@@ -1,0 +1,12 @@
+<input type="range"
+       [name]="name"
+       [id]="id"
+       [disabled]="disabled"
+       [min]="min"
+       [max]="max"
+       [step]="step"
+       [value]="value"
+       [attr.aria-valuenow]="ariaValueNow"
+       [attr.aria-valuetext]="ariaValueText"
+       (change)="onChange($event.target.value)"
+       title="{{ariaValueNow}}">

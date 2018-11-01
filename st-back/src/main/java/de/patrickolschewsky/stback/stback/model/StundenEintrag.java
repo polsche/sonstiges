@@ -37,9 +37,9 @@ public class StundenEintrag implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
-	private Date datum;
-	private Date  kommenZeit;
-	private Date gehenZeit;
+	private String datum;
+	private String kommenZeit;
+	private String gehenZeit;
 	private String leistung;
 	
 	@Column(nullable = false, updatable = false)
@@ -51,6 +51,9 @@ public class StundenEintrag implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Date updatedAt;
+    
+	@ManyToOne
+	User benutzer;
 	
 	
 	public Date getCreatedAt() {
@@ -73,10 +76,6 @@ public class StundenEintrag implements Serializable {
 	}
 
 
-	@ManyToOne
-	User benutzer;
-
-
 	public Long getId() {
 		return id;
 	}
@@ -87,32 +86,32 @@ public class StundenEintrag implements Serializable {
 	}
 
 
-	public Date getDatum() {
+	public String getDatum() {
 		return datum;
 	}
 
 
-	public void setDatum(Date datum) {
+	public void setDatum(String datum) {
 		this.datum = datum;
 	}
 
 
-	public Date getKommenZeit() {
+	public String getKommenZeit() {
 		return kommenZeit;
 	}
 
 
-	public void setKommenZeit(Date kommenZeit) {
+	public void setKommenZeit(String kommenZeit) {
 		this.kommenZeit = kommenZeit;
 	}
 
 
-	public Date getGehenZeit() {
+	public String getGehenZeit() {
 		return gehenZeit;
 	}
 
 
-	public void setGehenZeit(Date gehenZeit) {
+	public void setGehenZeit(String gehenZeit) {
 		this.gehenZeit = gehenZeit;
 	}
 

@@ -3,13 +3,15 @@ export class StundenEintrag {
 
     constructor(
         id,
-        datum: Date,
+        datum: string,
         kommenZeit: Date,
         gehenZeit: Date,
         leistung: string,
         createdAt: Date,
         updatedAt: Date,
         benutzer: string)
-        { this.id = id; }
+        {
+            this.id = id;
+        }
         
 }

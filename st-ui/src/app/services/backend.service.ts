@@ -18,8 +18,12 @@ export class BackendService {
 
   }
 
-  getAllDataFromServer(): Observable<StundenEintrag[]> {
-    return this.http.get(this.restURL + "eintraege").map(this.extractData).catch(this.handleErrorObservable);
+  getAllDataFromServer(monat: number, jahr: number): Observable<StundenEintrag[]> {
+    return this.http.get(this.restURL + "eintraege/" + monat + "/" + jahr).map(this.extractData).catch(this.handleErrorObservable);
+  }
+
+  getById(id: number) {
+    return this.http.get(this.restURL + "eintraege/id/" + id).map(this.extractData).catch(this.handleErrorObservable);
   }
 
   updateNote(eintrag: StundenEintrag) {

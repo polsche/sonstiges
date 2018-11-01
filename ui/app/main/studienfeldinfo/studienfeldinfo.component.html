@@ -1,0 +1,160 @@
+<div *ngIf="!fehler">
+  <ba-studisu-header [isLight]="true" class="__studienfeldinfo_" [bgImgName]="getHeaderImage()">
+    <ba-studisu-back></ba-studisu-back>
+    <h1 *ngIf="name" id="studienfeldInfoUeberschrift">{{name}}</h1>
+  </ba-studisu-header>
+  <div class="studisu-content-studienfeldinfo">
+    <div class="row __header_">
+      <div class="col-sm-12 col-lg-10 col-lg-offset-1">
+        <div *ngIf="!descriptions">
+          <ba-studisu-load-spinner size="33"></ba-studisu-load-spinner>
+        </div>
+        <div *ngIf="descriptions" id="content">
+          <p *ngFor="let studienfeldinfoabsatz of descriptions">
+            {{studienfeldinfoabsatz}}
+          </p>
+        </div>
+        <div class="text-center">
+          <a routerLink="/suche" [queryParams]="studienfeldAsParam()" title="{{countGesamt}} Studienangebote anzeigen"
+             class="ba-btn ba-btn-tertiary ba-btn-icon ba-icon-chevron-right-after"
+             id="btn_showstudienangebote" role="link">
+            <span>{{countGesamt}}</span>&nbsp;Studienangebote anzeigen
+          </a>
+          <a href="javascript:void(0)" class="ba-icon ba-icon-info-after" id="infoiconoben"
+             title="Weitere Informationen zur Anzahl der Studienangebote"
+             (click)="infomodalOeffnen()"></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <div class="print-only studienangebote-count-print" aria-hidden="true">
+        <span>{{countGesamt}} Studienangebote anzeigen</span>
+      </div>
+    </div>
+
+    <div class="row __accordeon_">
+
+      <div class="col-sm-12 col-lg-10 col-lg-offset-1">
+
+        <!-- Dieses DIV wird benötigt, um die korrekte Breite der Film-IFRAMEs zu berechnen -->
+        <div class="row" style="height: 1px;">
+          <div #film_width class="studienfach-film col-lg-6 col-md-8"></div>
+        </div>
+
+        <h3 id="sfaecherueberschrift">Zugeh&ouml;rige Studienf&auml;cher:</h3>
+
+        <div>
+          <div *ngIf="!studienfachInfos">
+            <ba-studisu-load-spinner size="33"></ba-studisu-load-spinner>
+          </div>
+          <div *ngIf="studienfachInfos" id="accordions" aria-multiselectable="true" role="tablist"
+               class="panel-group ba-accordion">
+            <!-- -------------------- start Accordion -------------------- -->
+            <div *ngFor="let studienfach of studienfachInfos; let index = index;"
+                 class="panel">
+              <div class="panel-heading" id="accordion{{index}}-heading" style="position:relative;">
+                <h2 class="panel-title">
+                  <a #accordion id="accordion{{index}}-link"
+                    [attr.aria-controls]="'accordion' + index + '-panel'"
+                    [attr.aria-expanded]="isOpen(studienfach) ? 'true' : 'false'"
+                    [attr.aria-label]="getToolTipp(studienfach)"
+                    [title]="getToolTipp(studienfach)"
+                    class="{{isStudienfachSelectedOnInit(studienfach.id) ? 'in' : 'collapsed'}}"
+                    data-toggle="collapse"
+                    href="#accordion{{index}}-panel"
+                    role="button"
+                    (click)="toggleOpenState(studienfach)"
+                  >
+                    {{studienfach.neutralBezeichnung}}
+                  </a>
+                </h2>
+                <studisu-checkbox (checkedChange)="onSelect($event, index)" id="studienfeldinfo_cb_{{index}}"
+                                  [(checked)]="selectionModel.get(studienfach.id).selected"
+                                  [arialabel]="'Auswahl ' + studienfach.neutralBezeichnung"></studisu-checkbox>
+              </div>
+              <div
+                [attr.aria-labelledby]="'accordion' + index + '-heading'"
+                class="panel-collapse {{isStudienfachSelectedOnInit(studienfach.id) ? 'in' : 'collapse'}}"
+                id="accordion{{index}}-panel"
+                role="tabpanel"
+              >
+                <div class="panel-body">
+                  <p *ngFor="let absatz of studienfach.studienfachbeschreibungen">
+                    {{absatz}}
+                  </p>
+                  <div class="text-right">
+                    <a routerLink="/suche" [queryParams]="studienfachAsParam(studienfach)"
+                       title="{{studienfach.count}} Studienangebot{{studienfach.count != 1 ? 'e' :''}} anzeigen"
+                       class="ba-btn ba-btn-tertiary ba-btn-icon ba-icon-chevron-right-after" id="showstudienangebote"
+                       role="link">
+                      <span>{{studienfach.count}}</span>&nbsp;Studienangebot{{studienfach.count != 1 ? 'e' :''}}
+                      anzeigen
+                    </a>
+                  </div>
+
+                  <div class="text-right">
+                    <div class="print-only studienangebote-count-print" aria-hidden="true">
+                      <span>{{studienfach.count}} Studienangebote anzeigen</span>
+                    </div>
+                  </div>
+
+                  <div class="row" style="margin-top: 2em;">
+                    <div
+                      *ngIf="studienfach.studiengangsbezeichnungen && studienfach.studiengangsbezeichnungen.length > 0; then Studiengangsbezeichnungen"></div>
+                    <div *ngIf="studienfach.studienfachFilmId > 0; then Studienfachfilm"></div>
+
+                    <ng-template #Studiengangsbezeichnungen>
+                      <div class="studienfach-studiengangsbezeichnungen col-md-6">
+                        <h3>Studiengangsbezeichnungen</h3>
+                        <b>{{studienfach.studiengangsbezeichnungen[0]}}</b>
+                        <ul>
+                          <li *ngFor="let bezeichnung of studienfach.studiengangsbezeichnungen.slice(1)">
+                            {{bezeichnung}}
+                          </li>
+                        </ul>
+                      </div>
+                    </ng-template>
+
+                    <ng-template #Studienfachfilm>
+                      <div class="studienfach-film col-lg-6 col-md-8">
+                        <h3>Spannende Einsichten ins Studium</h3>
+                        <iframe [attr.src]="isOpen(studienfach) ? studienfach.filmURL : null" frameborder="0"
+                                allowfullscreen="true" [attr.width]="(film_width.offsetWidth-40) + 'px'"
+                                [attr.height]="getIframeHeight(film_width.offsetWidth-40)">
+                        </iframe>
+                      </div>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- --------------------- end Accordion --------------------- -->
+
+            <div class="text-center">
+              <a routerLink="/suche" [queryParams]="studienfaecherAsParams()"
+                 title="{{countCheckedSumme}} Studienangebot{{countCheckedSumme != 1 ? 'e' :''}} anzeigen"
+                 class="ba-btn ba-btn-primary ba-btn-icon ba-icon-chevron-right-after"
+                 id="showstudienangebotecheckboxen" role="link">
+                {{countCheckedSumme}} Studienangebot{{countCheckedSumme != 1 ? 'e' :''}} anzeigen
+              </a>
+              <a href="javascript:void(0)" class="ba-icon ba-icon-info-after" id="infoiconunten"
+                 title="Weitere Informationen zur Anzahl der Studienangebote"
+                 (click)="infomodalOeffnen()"></a>
+            </div>
+
+            <div class="text-center">
+              <div class="print-only studienangebote-count-print" aria-hidden="true">
+                <span>{{countCheckedSumme}} Studienangebot{{countCheckedSumme != 1 ? 'e' :''}} anzeigen</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="fehler">
+  <ba-studisu-seitenichtgefundentxt></ba-studisu-seitenichtgefundentxt>
+</div>

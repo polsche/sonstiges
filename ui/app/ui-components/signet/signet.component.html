@@ -1,0 +1,4 @@
+<div #imgBlock class="studisu-signet" style="display:none;">
+  <img [src]="hasSignet ? getImageUrl() : ''" (load)="loadingComplete()"/>
+</div>
+<div class="studisu-signet ba-icon ba-icon-diploma-before" *ngIf="!isLoaded()"></div>

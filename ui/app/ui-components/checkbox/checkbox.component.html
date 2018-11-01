@@ -1,0 +1,9 @@
+<div class="studisu-checkbox {{class}}" [style]="style" (click)="$event.stopPropagation()">
+  <input type="checkbox"
+          [id]="id"
+          [title]="title"  
+          [(ngModel)]="checked"
+          [disabled]="disabled"
+          [attr.aria-label]="arialabel">
+  <label [for]="id"[innerHTML]="label"></label>
+</div>

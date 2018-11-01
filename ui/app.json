@@ -1,0 +1,76 @@
+{
+  "id": "/infosysbub/dev/studisu/uismoke",
+  "backoffFactor": 1.15,
+  "backoffSeconds": 1,
+  "container": {
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 0,
+        "protocol": "tcp",
+        "servicePort": 0,
+        "name": "studisu-ui"
+      }
+    ],
+    "type": "DOCKER",
+    "volumes": [],
+    "docker": {
+      "image": "nexus1.bafw.iirzi.de:5050/studisu-ui:latest",
+      "forcePullImage": true,
+      "privileged": false
+    }
+  },
+  "cpus": 0.1,
+  "disk": 0,
+  "fetch": [
+    {
+      "uri": "file:///etc/docker_crd/pullmonkey.tar.gz",
+      "extract": true,
+      "executable": false,
+      "cache": false
+    }
+  ],
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 10,
+      "intervalSeconds": 10,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 0,
+      "timeoutSeconds": 10,
+      "delaySeconds": 15,
+      "protocol": "MESOS_HTTP",
+      "path": "/suche"
+    }
+  ],
+  "instances": 1,
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/studiensuche/",
+    "HAPROXY_0_PATH": "/studiensuche/",
+    "HAPROXY_0_VHOST": "con-pint.webapp.edst.ebaintern.de",
+    "HAPROXY_1_HTTP_BACKEND_PROXYPASS_PATH": "/studiensuche/",
+    "HAPROXY_1_PATH": "/studiensuche/",
+    "HAPROXY_1_VHOST": "con-sint.webapp.idst.ibaintern.de"
+  },
+  "maxLaunchDelaySeconds": 3600,
+  "mem": 1024,
+  "gpus": 0,
+  "env" :{
+    "oagHost": "https://api-con-sint.webapp.idst.ibaintern.de",
+    "baseUrlHeaderFooter": "https://api-con.webapp.idst.ibaintern.de/dev-develop",
+    "baseUrlContent": "https://www.arbeitsagentur.de",
+    "baseUrlMetasuche": "http://l3616022.edst.ebaintern.de:55764/metasuche/",
+    "urlKontaktTechFehlerMelden": "http://apok-pbd2-spu1.webapp.sdst.sbaintern.de:55764/kontakt-ui/#/technischen-fehler-melden",
+    "studienangeboteServiceHost": "https://con-pint.webapp.edst.ebaintern.de/develop/studisu"
+  },
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "upgradeStrategy": {
+    "maximumOverCapacity": 1,
+    "minimumHealthCapacity": 1
+  },
+  "constraints": []
+}

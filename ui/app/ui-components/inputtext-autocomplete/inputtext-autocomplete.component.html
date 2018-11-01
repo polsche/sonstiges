@@ -1,0 +1,27 @@
+<div ngClass="{{styleClass}} {{disabledStyleClass()}}" role="application">
+    <input  class="form-control"
+            [(ngModel)]="model"
+            [name]="name"
+            [placeholder]="getInputPlaceholder()"
+            type="text"
+            [id]="id + '_input'"
+            [disabled]="disabled"
+            [attr.aria-label]="ariaLabel + ' Auswahl mit Pfeil rauf runter'"
+            (keyup)="onTypeSubject.next($event);"
+            (keydown)="onKeyDown($event)"
+            list="ac_id"
+            role="textbox"
+            #name="ngModel"
+            (focus)="onFocus()"
+    />
+    <div #autocompleteContainer *ngIf="suggestionList.length && showAutocomplete">
+        <ul class="dropdown-menu studisu-autocomplete-menu" [id]="id + '_list'" role="listbox" (mousemove)="mouseMoved($event)" [title]="getInputPlaceholder() + ' Treffer'">
+            <li *ngFor="let item of suggestionList; let i = index" [attr.id]="'autocompletelist_' + suggestionList.indexOf(item.label)"
+                (mouseover)="select($event, i)" (click)="onDropdownAuswahl(item)"
+                [ngClass]="{selected: (i === itemIndex || (itemindex < 0 && i === 0))}" role="option"
+            >
+                <a role="link" [attr.id]="'autocompletelist_' + suggestionList.indexOf(item.label)">{{item.label}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

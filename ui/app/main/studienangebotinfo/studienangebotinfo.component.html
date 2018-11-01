@@ -1,0 +1,370 @@
+<div (swipeleft)="onNextClicked()" (swiperight)="onPrevClicked()">
+  <div *ngIf="!fehler || studienangebot != null">
+
+    <ba-studisu-detailseitenheader [isLight]="false" class="__studienangebotinfo_">
+      <ba-studisu-detail-pager (backClicked)="onSucheClicked()" (prevClicked)="onPrevClicked()"
+                               (nextClicked)="onNextClicked()"
+                               [studiangebotTitle]="studienangebot?.bezeichnung" [numPrev]="studienangebot?.numPrev"
+                               [numNext]="studienangebot?.numNext"></ba-studisu-detail-pager>
+      <div class="ba-header-fix-ie-flexbug">
+        <div class="row" style="margin-top: 2rem">
+          <div class="col-md-3 visible-lg">
+            <studisu-signet [hasSignet]="studienangebot?.bildungsanbieterHasSignet"
+                            [banid]="studienangebot?.bildungsanbieterId"
+                            id="signet_{{studienangebot?.bildungsanbieterId}}"></studisu-signet>
+          </div>
+
+          <div class="col-lg-6 col-md-12">
+            <div class="row">
+              <div id="studienangebotinfoTitle" class="col-lg-12">
+                <h2 #ueberschrift aria-live="polite" tabindex="-1" id="ueberschrift2" class="">
+                  {{studienangebot?.bezeichnung}}</h2>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 text-center">
+                <span class="studienanbieter" id="detailseiteHeaderBildungsanbieter">{{studienangebot?.bildungsanbieter?.name}}</span>
+                <span class="studienort" id="detailseiteHeaderBildungsort">{{studienangebot?.studienort?.ort}}</span>
+                <span class="clear"></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </ba-studisu-detailseitenheader>
+
+    <div class="studisu-studienangebot-info">
+      <div>
+        <div class="row __liste_">
+          <div class="col-md-8 studienangebot-info-content-inhaltsspalte">
+            <div class="studienangebot-info-content-inhaltsspalte-links">
+              <ba-studisu-infoblock *ngIf="studienangebot?.inhalt" title="Studieninhalte" id="studieninhalte"
+                                    icon="studieninhalte" cssClass="studisu-content-block">
+                <ng-template>
+                  <div class="col-xs-12 studieninhalte-text" [innerHtml]="insertSpaces(studienangebot?.inhalt)"
+                       id="studieninhalte_wert"></div>
+                  <label *ngIf="studienangebot?.studienschwerpunkte" class="title col-xs-12 studisu-label"
+                         id="studienschwerpunkte_label">Studienschwerpunkte</label>
+                  <div *ngIf="studienangebot?.studienschwerpunkte"
+                       class="col-xs-12 studisu-html-content studisu-angebot-hyphens" lang="de"
+                       [innerHtml]="studienangebot?.studienschwerpunkte" id="studienschwerpunkte_wert"></div>
+                  <label *ngIf="studienangebot?.studiuminformationen" class="title col-xs-12 studisu-label"
+                         id="studiuminformationen_label">Studiuminformationen</label>
+                  <p *ngIf="studienangebot?.studiuminformationen" class="col-xs-12" id="studiuminformationen_wert">
+                    {{studienangebot?.studiuminformationen}}</p>
+                  <p class="col-xs-12 btn-abstand print-hide" *ngIf="studienangebot?.veranstaltungZusatzlink"><a
+                    id="zusatzlinkInhalt" class="btn-detail ba-btn ba-btn-primary ba-btn-icon"
+                    title="{{'Nähere Informationen zum Studienangebot des Studienanbieters aufrufen. Die Seite öffnet sich in einem neuen Fenster.'}}"
+                    href="{{studienangebot?.veranstaltungZusatzlink}}" target="_blank"><i
+                    class="link-out "></i>ZUR INFOSEITE
+                    STUDIENANGEBOT</a></p>
+                  <div *ngIf="studienangebot?.hasStudicheckOsa()" class="col-xs-12">
+                    <hr class="studisu-angebot-bottom-border"/>
+                  </div>
+                  <div *ngIf="studienangebot?.hasStudicheckOsa()"
+                       class="_studienangebot_linktags linktags_logos_padding-top">
+                    <h3>Studium entdecken und Wissen testen:</h3>
+                    <div *ngFor="let link of studienangebot?.externalLinks; let i = index" class="linktag">
+                      <a href="{{link.link}}" target="_blank" class="text_ohne_dekoration print-hide"
+                         title="{{ link.name == 'osa' ? 'Zum Angebot eines Online-Self-Assessment der Hochschule wechseln.\nDie Seite öffnet sich in einem neuen Fenster.' : 'Zum Angebot des Studicheck wechseln.\nDie Seite öffnet sich in einem neuen Fenster.'}}">
+                        <i class="link-out"></i>
+                        <img class="{{ link.name == 'osa' ? '' : 'studicheck_logo_margin_top'}}"
+                             src='assets/images/{{link.name}}.png'>
+                      </a>
+                      <div class="print-only" aria-hidden="true">
+                        <i class="link-out"></i>
+                        <img class="{{ link.name == 'osa' ? '' : 'studicheck_logo_margin_top'}}"
+                             src='assets/images/{{link.name}}.png'>
+                      </div>
+                      <a title="{{ link.name == 'osa' ? 'Erläuterung zum OSA' : 'Erläuterung zum Studicheck'}}" href="javascript:void(0)" id="detail_{{link.name | sgNormanizeId}}_Infobutton"
+                         (click)="infopopupDelegate.showInfoFor(link.name == 'osa' ? '2' : '1')"
+                         class="ba-icon ba-icon-info-after ba-filterfacet-info"></a>
+                    </div>
+                  </div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+              <ba-studisu-infoblock *ngIf="isDauerUndTermineGesetzt()" title="Dauer und Termine" id="dauerundtermine"
+                                    icon="date" cssClass="studisu-content-block">
+                <ng-template>
+                  <label *ngIf="studienangebot?.dauer?.beginn" class="title col-xs-12 studisu-label"
+                         id="beginn_label">Beginn</label>
+                  <p *ngIf="studienangebot?.dauer?.beginn" class="col-xs-12" id="beginn_wert">
+                    {{studienangebot?.dauer?.beginn ? studienangebot?.dauer?.beginn : '&nbsp;'}}</p>
+                  <label *ngIf="studienangebot?.dauer?.ende" class="title col-xs-12 studisu-label"
+                         id="ende_label">Ende</label>
+                  <p *ngIf="studienangebot?.dauer?.ende" class="col-xs-12" id="ende_wert">
+                    {{studienangebot?.dauer?.ende ? studienangebot?.dauer?.ende : '&nbsp;'}}</p>
+                  <label *ngIf="studienangebot?.dauer?.zulassungssemester" class="title col-xs-12 studisu-label"
+                         id="studienbeginn_label">Studienbeginn</label>
+                  <p *ngIf="studienangebot?.dauer?.zulassungssemester" class="col-xs-12" id="studienbeginn_wert">
+                    {{studienangebot?.dauer?.zulassungssemester}}</p>
+                  <label *ngIf="studienangebot?.dauer?.individuellerEinstieg!=null" class="title col-xs-12 studisu-label"
+                         id="individuellerEinstieg_label">individueller Einstieg</label>
+                  <p *ngIf="studienangebot?.dauer?.individuellerEinstieg!=null" class="col-xs-12" id="individuellerEinstieg_wert">
+                    {{studienangebot?.dauer?.individuellerEinstieg==true?'Ja':'Nein'}}</p>
+                  <label *ngIf="studienangebot?.dauer?.unterrichtszeiten" class="title col-xs-12 studisu-label"
+                         id="unterrichtszeiten_label">Vorlesungszeiten</label>
+                  <div *ngIf="studienangebot?.dauer?.unterrichtszeiten"
+                       class="col-xs-12 studisu-html-content studisu-angebot-hyphens" lang="de"
+                       [innerHtml]="studienangebot?.dauer?.unterrichtszeiten" id="unterrichtszeiten_wert"></div>
+                  <label *ngIf="studienangebot?.dauer?.bemerkung" class="title col-xs-12 studisu-label"
+                         id="fristen_label">Fristen</label>
+                  <div *ngIf="studienangebot?.dauer?.bemerkung"
+                       class="col-xs-12 studisu-html-content studisu-angebot-hyphens" lang="de"
+                       [innerHtml]="studienangebot?.dauer?.bemerkung" id="fristen_wert"></div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+              <ba-studisu-infoblock *ngIf="studienangebot?.kosten"
+                                    title="Kosten/Geb&uuml;hren/F&ouml;rderung" id="kostengebuehrenfoerderung"
+                                    icon="calculation" cssClass="studisu-content-block">
+                <ng-template>
+                  <label class="title col-xs-12 studisu-label"
+                         id="kosten_label">Studienbeitrag/ Studiengebühren/ Studienentgelt</label>
+                  <div class="col-xs-12" [innerHtml]="studienangebot?.kosten"
+                       id="kosten_wert"></div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+              <ba-studisu-infoblock *ngIf="isZugangsinformationenGesetzt()" title="Zugangsinformationen"
+                                    id="zugangsinformationen" icon="zugangsinfo"
+                                    cssClass="studisu-content-block">
+                <ng-template>
+                  <label *ngIf="studienangebot?.zugangsinformationen?.zulassungsmodus" class="title col-xs-12 studisu-label"
+                         id="zulassungsmodus_label">Zulassungsmodus</label>
+                  <p *ngIf="studienangebot?.zugangsinformationen?.zulassungsmodus" class="col-xs-12" id="zulassungsmodus_wert">
+                    {{studienangebot?.zugangsinformationen?.zulassungsmodus}}</p>
+                  <label *ngIf="studienangebot?.zugangsinformationen?.zulassungsmodusInfo" class="title col-xs-12 studisu-label"
+                         id="zulassungsmodusInfo_label">Informationen zum Zulassungsmodus</label>
+                  <div *ngIf="studienangebot?.zugangsinformationen?.zulassungsmodusInfo"
+                       class="col-xs-12 studisu-html-content studisu-angebot-hyphens" lang="de"
+                       [innerHtml]="studienangebot?.zugangsinformationen?.zulassungsmodusInfo" id="zulassungsmodusInfo_wert"></div>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.voraussetzungen" class="title col-xs-12 studisu-label"
+                         id="zugangsvoraussetzungen_label">Zugangsvoraussetzungen</label>
+                  <div *ngIf="studienangebot?.zugangsinformationen?.voraussetzungen"
+                       class="col-xs-12 studisu-html-content studisu-angebot-hyphens" lang="de"
+                       [innerHtml]="studienangebot?.zugangsinformationen?.voraussetzungen" id="zugangsvoraussetzungen_wert"></div>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.ohneAbiMoeglich!=null" class="title col-xs-12 studisu-label"
+                         id="ohneAbiMoeglich_label">Studieren ohne Abitur möglich</label>
+                  <p *ngIf="studienangebot?.zugangsinformationen?.ohneAbiMoeglich!=null" class="col-xs-12" id="ohneAbiMoeglich_wert">
+                    {{studienangebot?.zugangsinformationen?.ohneAbiMoeglich==true?'Ja':'Nein'}}</p>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.ohneAbiZugangsbedingungen?.length>0 && studienangebot?.zugangsinformationen?.ohneAbiMoeglich==true" class="title col-xs-12 studisu-label"
+                         id="ohneAbiZugangsbedingungen_label">Zugangsbedingungen für das Studieren ohne Abitur</label>
+                  <div *ngIf="studienangebot?.zugangsinformationen?.ohneAbiZugangsbedingungen?.length>0 && studienangebot?.zugangsinformationen?.ohneAbiMoeglich==true" id="ohneAbiZugangsbedingungen_wert">
+                    <p class="col-xs-12 zugangsbedingungen-liste" *ngFor="let zugangsbedingungen of studienangebot?.zugangsinformationen?.ohneAbiZugangsbedingungen">
+                        {{zugangsbedingungen.bedingung}}<br />
+                        {{zugangsbedingungen.bemerkung}}<br />
+                    </p>
+                  </div>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.akkreditierung" class="title col-xs-12 studisu-label"
+                         id="akkreditierung_label">Akkreditierung</label>
+                  <p *ngIf="studienangebot?.zugangsinformationen?.akkreditierung" class="col-xs-12" id="akkreditierung_wert">
+                    {{studienangebot?.zugangsinformationen?.akkreditierung}}</p>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.akkreditierungVon" class="title col-xs-12 studisu-label"
+                         id="akkreditierungVon_label">Akkreditierung von</label>
+                  <p *ngIf="studienangebot?.zugangsinformationen?.akkreditierungVon" class="col-xs-12" id="akkreditierungVon_wert">
+                    {{studienangebot?.zugangsinformationen?.akkreditierungVon}}</p>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.akkreditierungBis" class="title col-xs-12 studisu-label"
+                         id="akkreditierungBis_label">Akkreditierung bis</label>
+                  <p *ngIf="studienangebot?.zugangsinformationen?.akkreditierungBis" class="col-xs-12" id="akkreditierungBis_wert">
+                    {{studienangebot?.zugangsinformationen?.akkreditierungBis}}</p>
+
+                  <label *ngIf="studienangebot?.zugangsinformationen?.akkreditierungsbedingungen" class="title col-xs-12 studisu-label"
+                         id="akkreditierungsbedingungen_label">Akkreditierungsbedingungen</label>
+                  <div *ngIf="studienangebot?.zugangsinformationen?.akkreditierungsbedingungen"
+                       class="col-xs-12 studisu-html-content studisu-angebot-hyphens" lang="de"
+                       [innerHtml]="studienangebot?.zugangsinformationen?.akkreditierungsbedingungen" id="akkreditierungsbedingungen_wert"></div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+            </div>
+          </div>
+
+          <div class="col-md-4 studienangebot-info-content-inhaltsspalte">
+            <div class="studienangebot-info-content-inhaltsspalte-rechts">
+              <ba-studisu-infoblock *ngIf="isStudiengangsinformationenGesetzt()" title="Studiengangs&shy;informationen"
+                                    id="studiengangsinformationen"
+                                    icon="studiengangsinfo" cssClass="studisu-content-block-rechts">
+                <ng-template>
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.bildungsart" class="title col-xs-12 studisu-label"
+                         id="bildungsart_label">Studientyp</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.bildungsart" class="col-xs-12" id="bildungsart_wert">
+                    {{studienangebot?.studiengangsinformationen?.bildungsart}}</p>
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.abschlusstyp && studienangebot?.studiengangsinformationen?.bildungsart=='Studienangebot - weiterführend'" class="title col-xs-12 studisu-label"
+                         id="abschlusstyp_label">Mastertyp</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.abschlusstyp && studienangebot?.studiengangsinformationen?.bildungsart=='Studienangebot - weiterführend'" class="col-xs-12" id="abschlusstyp_wert">
+                    {{studienangebot?.studiengangsinformationen?.abschlusstyp}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.studienform" class="title col-xs-12 studisu-label"
+                         id="studienform_label">Studienform</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.studienform" class="col-xs-12" id="studienform_wert">
+                    {{studienangebot?.studiengangsinformationen?.studienform}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.schulart" class="title col-xs-12 studisu-label"
+                         id="schulart_label">Schulart</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.schulart" class="col-xs-12" id="schulart_wert">
+                    {{studienangebot?.studiengangsinformationen?.schulart}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.abschlussgrad" class="title col-xs-12 studisu-label"
+                         id="abschlussgrad_label">Abschlussgrad</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.abschlussgrad" class="col-xs-12" id="abschlussgrad_wert">
+                    {{studienangebot?.studiengangsinformationen?.abschlussgrad}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.abschlussgradIntern" class="title col-xs-12 studisu-label"
+                         id="abschlussgradIntern_label">Abschlussgrad intern</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.abschlussgradIntern" class="col-xs-12" id="abschlussgradIntern_wert">
+                    {{studienangebot?.studiengangsinformationen?.abschlussgradIntern}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.regelstudienzeit" class="title col-xs-12 studisu-label"
+                         id="regelstudienzeit_label">Regelstudienzeit</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.regelstudienzeit" class="col-xs-12" id="regelstudienzeit_wert">
+                    {{studienangebot?.studiengangsinformationen?.regelstudienzeit}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.lehramtsbefaehigung!=null" class="title col-xs-12 studisu-label"
+                         id="lehramtsbefaehigung_label">Lehramtsbefähigung</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.lehramtsbefaehigung!=null" class="col-xs-12" id="lehramtsbefaehigung_wert">
+                    {{studienangebot?.studiengangsinformationen?.lehramtsbefaehigung==true?'Ja':'Nein'}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.lehramtstyp && studienangebot?.studiengangsinformationen?.lehramtsbefaehigung==true" class="title col-xs-12 studisu-label"
+                         id="lehramtstyp_label">Lehramtstyp</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.lehramtstyp && studienangebot?.studiengangsinformationen?.lehramtsbefaehigung==true" class="col-xs-12" id="lehramtstyp_wert">
+                    {{studienangebot?.studiengangsinformationen?.lehramtstyp}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.unterrichtssprache" class="title col-xs-12 studisu-label"
+                         id="unterrichtssprache_label">Unterrichtssprache</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.unterrichtssprache" class="col-xs-12" id="unterrichtssprache_wert">
+                    {{studienangebot?.studiengangsinformationen?.unterrichtssprache}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.internationalerDoppelabschluss!=null" class="title col-xs-12 studisu-label"
+                         id="internationalerDoppelabschluss_label">Internationaler Doppelabschluss</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.internationalerDoppelabschluss!=null" class="col-xs-12" id="internationalerDoppelabschluss_wert">
+                    {{studienangebot?.studiengangsinformationen?.internationalerDoppelabschluss==true?'Ja':'Nein'}}</p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.dualeStudienmodelle?.length>0" class="title col-xs-12 studisu-label"
+                         id="dualeStudienmodelle_label">Duale Studienmodelle</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.dualeStudienmodelle?.length>0" class="col-xs-12" id="dualeStudienmodelle_wert">
+                    <span *ngFor="let studienmodell of studienangebot?.studiengangsinformationen?.dualeStudienmodelle">
+                    {{studienmodell}}<br />
+                    </span>
+                  </p>
+
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.studienfaecher?.length==1" class="title col-xs-12 studisu-label"
+                         id="studienfach_label">Studienfach</label>
+                  <label *ngIf="studienangebot?.studiengangsinformationen?.studienfaecher?.length>1" class="title col-xs-12 studisu-label"
+                         id="studienfaecher_label">Studienfächer</label>
+                  <p *ngIf="studienangebot?.studiengangsinformationen?.studienfaecher?.length>0" class="col-xs-12" id="studienfach_wert">
+                    <span *ngFor="let studienfach of studienangebot?.studiengangsinformationen?.studienfaecher">
+                    {{studienfach}}<br />
+                    </span>
+                  </p>
+
+                  <div class="col-xs-12">
+                    <hr class="studisu-content-border"/>
+                  </div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+              <ba-studisu-infoblock title="Studienanbieter" id="studienanbieter" icon="diploma" cssClass="studisu-content-block-rechts">
+                <ng-template>
+                  <p *ngIf="studienangebot?.bildungsanbieter?.name" class="col-xs-12"
+                     id="studienanbieter_name_wert">{{studienangebot?.bildungsanbieter?.name}}</p>
+                  <p *ngIf="studienangebot?.bildungsanbieter?.strasse" class="col-xs-12"
+                     id="studienanbieter_strasse_wert">{{studienangebot?.bildungsanbieter?.strasse}}</p>
+                  <p
+                    *ngIf="studienangebot?.bildungsanbieter?.postleitzahl || studienangebot?.bildungsanbieter?.ort"
+                    class="col-xs-12"
+                    id="studienanbieter_plzort_wert">
+                    {{studienangebot?.bildungsanbieter?.postleitzahl}}
+                    {{studienangebot?.bildungsanbieter?.ort}}</p>
+                  <div class="col-xs-12">
+                    <hr class="studisu-content-border"/>
+                  </div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+              <ba-studisu-infoblock title="Studienort" id="studienort" icon="location" cssClass="studisu-content-block-rechts">
+                <ng-template>
+                  <p *ngIf="studienangebot?.studienort?.strasse" class="col-xs-12"
+                     id="studienort_strasse_wert">{{studienangebot?.studienort?.strasse}}</p>
+                  <p *ngIf="studienangebot?.studienort?.postleitzahl || studienangebot?.studienort?.ort"
+                     class="col-xs-12" id="studienort_ort_wert">
+                    {{studienangebot?.studienort?.postleitzahl}} {{studienangebot?.studienort?.ort}}
+                  </p>
+                  <p *ngIf="studienangebot?.studienort?.bundesland" class="col-xs-12"
+                     id="studienort_bundesland_wert">Bundesland: {{studienangebot?.studienort?.bundesland}}</p>
+                  <div class="col-xs-12">
+                    <hr class="studisu-content-border"/>
+                  </div>
+                </ng-template>
+              </ba-studisu-infoblock>
+
+              <ba-studisu-infoblock *ngIf="isKontaktdatenGesetzt()" title="Kontakt" id="kontakt" icon="contact"
+                                    cssClass="studisu-content-block">
+                <ng-template>
+                  <label *ngIf="studienangebot?.kontakt?.telefonNummer" class="title col-xs-12 studisu-label"
+                         id="kontakt_telefon_label">Telefon</label>
+                  <p *ngIf="studienangebot?.kontakt?.telefonNummer" class="col-xs-12"
+                     id="kontakt_telefon_wert">
+                    {{studienangebot?.kontakt?.telefonVorwahl}} / {{studienangebot?.kontakt?.telefonNummer}}</p>
+                  <label *ngIf="studienangebot?.kontakt?.internet" class="title col-xs-12 studisu-label"
+                         id="kontakt_internet_label">Internet</label>
+                  <p *ngIf="studienangebot?.kontakt?.internet" class="col-xs-12" id="kontakt_internet_wert">
+                    <a title="Link zur Webseite des Anbieters" href="{{studienangebot?.kontakt?.internet}}"
+                       target="_blank"><i class="link-out"></i><span class="print-hide">{{studienangebot?.kontakt?.internet}}</span></a>
+                  </p>
+                  <label *ngIf="studienangebot?.kontakt?.email" class="title col-xs-12 studisu-label"
+                         id="kontakt_email_label">E-Mail</label>
+                  <p *ngIf="studienangebot?.kontakt?.email" class="col-xs-12" id="kontakt_email_wert">
+                    {{studienangebot?.kontakt?.email}}</p>
+                </ng-template>
+              </ba-studisu-infoblock>
+            </div>
+            <div class="studienangebot-info-content-inhaltsspalte-rechts-unten">
+              <label class="title col-xs-12 studisu-label"
+                     id="veroeffentlichungsinfo_label">Veröffentlichungsinfos</label>
+              <label class="title col-md-12 col-lg-6 studisu-label"
+                     id="veranstaltungsid_label">Veranstaltungs-ID</label>
+              <p class="col-md-12 col-lg-6" id="veranstaltungsid_wert">{{studienangebot?.id}}</p>
+              <label class="title col-md-12 col-lg-6 studisu-label" id="aktualisierungdatum_label">Aktualisierungsdatum</label>
+              <p class="col-md-12 col-lg-6" id="aktualisierungdatum_wert">
+                {{studienangebot?.aktualisierungsdatum}}</p>
+              <div *ngIf="studienangebot?.isHrkDatensatz" id="datenherkunft_hrklogo">
+                <!-- img link fuer nichtsehenden verborgen, da textlink darunter redundant ist -->
+                <a href="https://www.hochschulkompass.de/" target="_blank" aria-hidden="true" tabindex="-1"
+                   class="print-hide studisu-hrk-logo">
+                  <img src="assets/images/HRK_Logo.png">
+                </a>
+                <div class="print-only studisu-hrk-logo" aria-hidden="true">
+                  <img src="assets/images/HRK_Logo.png">
+                </div>
+                <p class="col-xs-12">
+                  Die Informationen &uuml;ber die Hochschule und das Studienangebot werden durch Zugriff auf den
+                  <a
+                    href="https://www.hochschulkompass.de/" target="_blank"><i class="link-out"></i>Hochschulkompass</a>
+                  der Hochschulrektorenkonferenz erzeugt.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="!fehler || studienangebot != null">
+  <div class="col-lg-12">
+    <ba-studisu-navtabbar></ba-studisu-navtabbar>
+  </div>
+</div>
+<div *ngIf="fehler">
+  <ba-studisu-seitenichtgefundentxt></ba-studisu-seitenichtgefundentxt>
+</div>

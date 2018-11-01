@@ -1,0 +1,75 @@
+// Gemeinsame Styles für Desktop- und Mobilansicht
+ba-studisu-reset-all-facettes {
+  display: none;
+  .__reset_all_facettes {
+    & > div {
+      outline: 2px solid $color-blue;
+      border: 3px solid white;
+      padding: 8px;
+      .ba-studisu-content {
+        float: left;
+        padding: 2px;
+        span:nth-child(1) {
+          color: $color-red;
+        }
+      }
+      .ba-studisu-resetbutton {
+        cursor: pointer;
+        text-decoration: none;
+        color: $color-white;
+        background-color: $color-blue;
+        border-radius: 12px;
+        padding: 2px 12px 2px 8px;
+        .ba-icon {
+          margin-right: 8px;
+        }
+        &:hover {
+          background-color: $color-blue-darkest;
+        }
+      }
+    }
+  }
+}
+// Styles nur für die Desktop-Ansicht
+ba-studisu-reset-all-facettes.desktop {
+  @include desktop-min() {
+  display: block;
+    .__reset_all_facettes {
+      padding: 0;
+      height: 74px;
+      position: relative;
+      margin: 1px 1px 21px 1px;
+      & > div {
+        height: 74px;
+        background: $color-white;
+        .ba-studisu-resetbutton {
+          position: absolute;
+          right: 8px;
+          bottom: 8px;
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}
+
+// Styles nur für die Mobilansicht
+ba-studisu-reset-all-facettes.mobile {
+  @include tablet-max() {
+    display: block;
+    .__reset_all_facettes {
+      padding: 20px 20px 0 20px;
+      background-color: $color-white;
+      margin-top: 20px;
+      margin-bottom: -20px;
+      & > div {
+        padding: 10px;
+        background: $color-grey-lighter;
+        .ba-studisu-resetbutton {
+          float: right;
+        }
+      }
+    }
+  }
+}
+

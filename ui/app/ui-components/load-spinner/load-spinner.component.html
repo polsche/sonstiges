@@ -1,0 +1,13 @@
+<div [class]="'ba-studisu-load-spinner-box ' + class" role="progressbar">
+  <div id="ie-rotor">
+    <svg [attr.width]="size + 'px'" [attr.height]="size + 'px'" xmlns="http://www.w3.org/2000/svg" class="ba-loading-spinner" viewBox="0 0 100 100">
+      <g>
+        <animateTransform attributeName="transform" type="rotate" values="0 50 50; 275 50 50" begin="0s" dur="1.5s" fill="freeze" repeatCount="indefinite"/>
+        <circle fill="none" stroke="black" stroke-width="10" stroke-linecap="square" cx="50" cy="50" r="44" stroke-dasharray="274" stroke-dashoffset="610">
+          <animateTransform attributeName="transform" type="rotate" values="0 50 50; 135 50 50; 450 50 50" begin="0s" dur="1.5s" fill="freeze" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dashoffset" values="274; 68.57; 274" begin="0s" dur="1.5s" fill="freeze" repeatCount="indefinite"/>
+        </circle>
+      </g>
+    </svg>
+  </div>
+</div>

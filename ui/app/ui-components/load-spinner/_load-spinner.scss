@@ -1,0 +1,36 @@
+.ba-studisu-load-spinner-box {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background: $color-white;
+  border: 1px solid $color-grey-light;
+  border-radius: 2px;
+  .ba-loading-spinner circle {
+    stroke: $color-red;
+  }
+}
+
+// Animation nur im IE sichtbar (andere Browser machen SVG-Animation)
+// Wir verwenden IE-only Media-Selektoren zur Unterscheidung.
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  #ie-rotor { // Fuer Ergebnisliste + allgemein
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: load-spinning;
+    animation-timing-function: linear;
+    transform-origin: 50% 46%;
+  }
+  .studisu-content-studienfeldinfo #ie-rotor { // Fuer Studienfeldinfo
+    transform-origin: 50% 43.5%;
+  }
+}
+
+// Animation für den Loading-Spinner (insbesondere im IE)
+@keyframes load-spinning {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

@@ -1,0 +1,94 @@
+<section class="studisu-facetten-desktop" *ngIf="searchResult" role="form" aria-label="Suchfacetten">
+
+  <article class="ba-tile ba-filterfacet-studientyp">
+    <ba-studisu-facettenfilter filterFacettenName="Studientyp" icon="certificate" [searchResult]="searchResult"
+                               [urlParam]="paramStudientyp"></ba-studisu-facettenfilter>
+  </article>
+
+  <article class="ba-tile ba-filterfacet-studienform">
+    <ba-studisu-facettenfilter filterFacettenName="Studienform" icon="time" [searchResult]="searchResult"
+                               [urlParam]="paramStudienform"></ba-studisu-facettenfilter>
+  </article>
+
+  <article class="ba-tile ba-filterfacet-hochschulart">
+    <ba-studisu-facettenfilter filterFacettenName="Hochschulart" icon="diploma" [searchResult]="searchResult"
+                               [urlParam]="paramHochschulart"></ba-studisu-facettenfilter>
+  </article>
+
+  <article class="ba-tile ba-filterfacet-ffstudium">
+    <ba-studisu-facettenfilter filterFacettenName="Fit für das Studium" icon="todo2"
+                               [infopopupDelegate]="fitFurStudiumInfoPopupDelegate"
+                               [searchResult]="searchResult"
+                               [urlParam]="paramFFStudium"></ba-studisu-facettenfilter>
+  </article>
+
+  <article class="ba-tile ba-filterfacet-suchumkreis">
+    <ba-studisu-umkreis-facette icon="location" [searchResult]="searchResult"></ba-studisu-umkreis-facette>
+  </article>
+
+  <article class="ba-tile ba-filterfacet-bundesland">
+    <ba-studisu-regionen-facette [searchResult]="searchResult"></ba-studisu-regionen-facette>
+  </article>
+</section>
+
+<div class="studisu-facetten-mobile" *ngIf="searchResult">
+  <section class="ba-mobile-facets ba-icon ba-icon-filter">
+    <ba-studisu-facettenfilter filterFacettenName="Studientyp" icon="certificate" showMobile="true"
+                               [searchResult]="searchResult"
+                               [urlParam]="paramStudientyp"></ba-studisu-facettenfilter>
+
+    <ba-studisu-facettenfilter filterFacettenName="Studienform" icon="time" showMobile="true"
+                               [searchResult]="searchResult"
+                               [urlParam]="paramStudienform"></ba-studisu-facettenfilter>
+
+    <ba-studisu-facettenfilter filterFacettenName="Hochschulart" icon="diploma" showMobile="true"
+                               [searchResult]="searchResult"
+                               [urlParam]="paramHochschulart"></ba-studisu-facettenfilter>
+
+    <ba-studisu-facettenfilter filterFacettenName="Fit für das Studium" icon="todo2" showMobile="true"
+                               [infopopupDelegate]="fitFurStudiumInfoPopupDelegate"
+                               [searchResult]="searchResult"
+                               [urlParam]="paramFFStudium"></ba-studisu-facettenfilter>
+
+    <ba-studisu-umkreis-facette icon="location" showMobile="true"
+                                [searchResult]="searchResult"></ba-studisu-umkreis-facette>
+
+    <ba-studisu-regionen-facette [searchResult]="searchResult" showMobile="true"></ba-studisu-regionen-facette>
+  </section>
+</div>
+
+<!-- print view -->
+<section class="print-only" aria-hidden="true" *ngIf="searchResult" role="form" aria-label="Suchfacetten">
+  <div class="col-xs-12">
+    <div class="studisu-facette-print">
+      <ba-studisu-umkreis-facette icon="location" [searchResult]="searchResult"></ba-studisu-umkreis-facette>
+    </div>
+
+    <div class="studisu-facette-print">
+      <ba-studisu-regionen-facette [searchResult]="searchResult"></ba-studisu-regionen-facette>
+    </div>
+  </div>
+  <div class="col-xs-12" style="margin-top: 2rem">
+    <div class="studisu-facette-print">
+      <ba-studisu-facettenfilter filterFacettenName="Studientyp" icon="certificate" [searchResult]="searchResult"
+                                 [urlParam]="paramStudientyp"></ba-studisu-facettenfilter>
+    </div>
+
+    <div class="studisu-facette-print">
+      <ba-studisu-facettenfilter filterFacettenName="Studienform" icon="time" [searchResult]="searchResult"
+                                 [urlParam]="paramStudienform"></ba-studisu-facettenfilter>
+    </div>
+
+    <div class="studisu-facette-print">
+      <ba-studisu-facettenfilter filterFacettenName="Hochschulart" icon="diploma" [searchResult]="searchResult"
+                                 [urlParam]="paramHochschulart"></ba-studisu-facettenfilter>
+    </div>
+
+    <div class="studisu-facette-print">
+      <ba-studisu-facettenfilter filterFacettenName="Fit für das Studium" icon="todo2"
+                                 [infopopupDelegate]="fitFurStudiumInfoPopupDelegate"
+                                 [searchResult]="searchResult"
+                                 [urlParam]="paramFFStudium"></ba-studisu-facettenfilter>
+    </div>
+  </div>
+</section>

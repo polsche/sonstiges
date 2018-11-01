@@ -1,0 +1,111 @@
+<!-- desktop version -->
+<fieldset class="ba-filterfacet print-hide" *ngIf="!showMobile">
+  <div class="ba-filterfacet-top">
+    <button id="{{filterFacettenName | sgNormanizeId}}Reset" type="reset" title="Auswahl zur&uuml;cksetzen"
+            class="ba-filterfacet-top-remove ba-icon ba-icon-trash"
+            (click)="resetFilters()" *ngIf="showReset"></button>
+    <legend id="{{filterFacettenName | sgNormanizeId}}Legende"
+            class="ba-filterfacet-top-headline{{icon ? (' ba-icon ba-icon-'+icon+'-before') : ''}}">
+      <span class="sr-only">Facette</span> {{filterFacettenName}}
+    </legend>
+  </div>
+
+  <div id="{{filterFacettenName | sgNormanizeId}}Content" class="ba-filterfacet-content">
+    <ng-container *ngFor="let item of filterList; let i = index">
+      <div class="ba-input-checkbox" *ngIf="item.active">
+        <studisu-checkbox
+          (change)="onFilterFacetteAendern(item)"
+          id="{{filterFacettenName | sgNormanizeId}}_{{item.key}}_Checkbox"
+          [label]="item.label"
+          [arialabel]="createAriaLabelForCheckbox(filterFacettenName, item.label)"
+          [(checked)]="item.selected">
+        </studisu-checkbox>
+        <ng-container *ngIf="showInfo && infopopupDelegate.hasInfoFor(item.key) ">
+          <a href="javascript:void(0)" id="{{filterFacettenName | sgNormanizeId}}_{{item.key}}_Infobutton"
+             title="Weitere Informationen zu diesem Filter aufrufen."
+             (click)="infopopupDelegate.showInfoFor(item.key)"
+             class="ba-icon ba-icon-info-after ba-filterfacet-info"></a>
+        </ng-container>
+      </div>
+    </ng-container>
+    <div id="{{filterFacettenName | sgNormanizeId}}_keineErgebnisse"
+         *ngIf="filterList == null || filterList.length == 0"
+         [innerHTML]="keineErgebnisse"></div>
+  </div>
+</fieldset>
+
+<!-- mobile version -->
+<fieldset class="ba-filterfacet print-hide" *ngIf="showMobile">
+  <legend id="{{filterFacettenName | sgNormanizeId}}LegendeMobile"
+          class="ba-filterfacet-top-headline{{hidden ? ('') : ' active'}}">
+    <a class="ba-filterfacet-top-headline-link" (click)="toggleDisplay()">
+      <span
+        class="{{showReset ? 'selected ':''}}{{hidden ? ('ba-icon ba-icon-chevron-down-after') : 'ba-icon ba-icon-chevron-up-after'}}">{{filterFacettenName}}</span>
+      <i *ngIf="!hidden"></i>
+    </a>
+  </legend>
+  <div id="{{filterFacettenName | sgNormanizeId}}Content" class="ba-filterfacet-content" *ngIf="!hidden">
+    <div>
+      <ng-container *ngFor="let item of filterList; let i = index">
+        <label class="ba-input-checkbox" *ngIf="item.active">
+          <studisu-checkbox
+            (change)="onFilterFacetteAendern(item)"
+            id="{{filterFacettenName | sgNormanizeId}}_{{item.key}}_CheckboxMobile"
+            [label]="item.label"
+            [arialabel]="createAriaLabelForCheckbox(filterFacettenName, item.label)"
+            [(checked)]="item.selected">
+          </studisu-checkbox>
+          <ng-container *ngIf="showInfo && infopopupDelegate.hasInfoFor(item.key) ">
+            <a href="javascript:void(0)" id="{{filterFacettenName | sgNormanizeId}}_{{item.key}}_Infobutton"
+               (click)="infopopupDelegate.showInfoFor(item.key)"
+               class="ba-icon ba-icon-info-after ba-filterfacet-info"></a>
+          </ng-container>
+        </label>
+      </ng-container>
+      <div *ngIf="filterList == null || filterList.length == 0">
+        <label class="ba-input-checkbox">
+          <span id="{{filterFacettenName | sgNormanizeId}}_keineErgebnisse" class="ba-input-checkbox-text"
+                [innerHTML]="keineErgebnisse"></span>
+        </label>
+      </div>
+    </div>
+    <div class="ba-filterfacet-bottom">
+     <a id="{{filterFacettenName | sgNormanizeId}}ResetMobile" title="Auswahl zur&uuml;cksetzen"
+         class="ba-filterfacet-bottom-reset"
+         (click)="resetFilters()" *ngIf="showReset">Zur&uuml;cksetzen</a>
+    </div>
+  </div>
+</fieldset>
+
+<!-- druck version -->
+<fieldset class="print-only filterfacet-print" aria-hidden="true">
+  <legend id="{{filterFacettenName | sgNormanizeId}}LegendeMobilePrint"
+          class="ba-filterfacet-top-headline-print">
+      <span class="filterfacet-header-print">{{filterFacettenName}}</span>
+  </legend>
+  <div id="{{filterFacettenName | sgNormanizeId}}ContentPrint" class="ba-filterfacet-content-print">
+    <div>
+      <ng-container *ngFor="let item of filterList; let i = index">
+        <label class="ba-input-checkbox-print" *ngIf="item.active && item.selected">
+          <input id="{{filterFacettenName | sgNormanizeId}}_{{item.key}}_CheckboxMobilePrint"
+                 type="checkbox"
+                 [(ngModel)]="item.selected">
+          <span id="{{filterFacettenName + '_' + item.key + '_labelMobilePrint'}}" aria-hidden="true"
+                class="ba-input-checkbox-text-print" innerHtml="{{item.label}}"></span>
+        </label>
+      </ng-container>
+      <div *ngIf="filterList == null || filterList.length == 0">
+        <label class="ba-input-checkbox">
+          <span id="{{filterFacettenName | sgNormanizeId}}_keineErgebnissePrint" class="ba-input-checkbox-text-print"
+                [innerHTML]="keineErgebnisse"></span>
+        </label>
+      </div>
+      <div *ngIf="!(filterList == null || filterList.length == 0) && !hasSelected()">
+        <label class="ba-input-checkbox">
+          <span id="{{filterFacettenName | sgNormanizeId}}_alle" class="ba-input-checkbox-text-print"
+                >Alle</span>
+        </label>
+      </div>
+    </div>
+  </div>
+</fieldset>

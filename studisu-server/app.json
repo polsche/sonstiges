@@ -1,0 +1,103 @@
+{
+  "README_CK_TODO": " hier muessen wir noch platzhalter mit ersettzung einbauen, sowie unten bei docker-image und im dockerfile",
+  "id": "/infosysbub/dev/studisu/serversmoke",
+  "backoffFactor": 1.15,
+  "backoffSeconds": 1,
+  "container": {
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 0,
+        "protocol": "tcp",
+        "servicePort": 0
+      }
+    ],
+    "type": "DOCKER",
+    "volumes": [],
+    "docker": {
+      "image": "nexus1.bafw.iirzi.de:5050/studisu-server:latest",
+      "forcePullImage": true,
+      "privileged": false
+    }
+  },
+  "cpus": 0.1,
+  "disk": 0,
+  "fetch": [
+    {
+      "uri": "file:///etc/docker_crd/pullmonkey.tar.gz",
+      "extract": true,
+      "executable": false,
+      "cache": false
+    }
+  ],
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 15,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 0,
+      "timeoutSeconds": 20,
+      "delaySeconds": 15,
+      "protocol": "MESOS_HTTP",
+      "path": "/pc/v1/mt/healthcheck_internal"
+    }
+  ],
+  "instances": 1,
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/studisu",
+    "HAPROXY_0_PATH": "/studisu",
+    "HAPROXY_0_VHOST": "con-pint.webapp.edst.ebaintern.de",
+    "HAPROXY_1_HTTP_BACKEND_PROXYPASS_PATH": "/studisu",
+    "HAPROXY_1_PATH": "/studisu",
+    "HAPROXY_1_VHOST": "con-sint.webapp.idst.ibaintern.de"
+  },
+  "maxLaunchDelaySeconds": 100000,
+  "mem": 3500,
+  "gpus": 0,
+  "env" :{
+    "HTTP_PROXY_HOST" : "pubsquid.marathon.mesos",
+    "HTTP_PROXY_PORT" : "8089",
+    "SAML_CERTIFICATE" : { "secret": "SAML_CERTIFICATE" },
+    "SAML_KEY" : { "secret": "SAML_KEY" },
+    "studisu_ui_url" : "https://con-pint.webapp.edst.ebaintern.de/feature/studisu-266",
+    "studisu_cors_active" : "false",
+    "logging_level_org_springframework_web" : "DEBUG",
+    "logging_level_org_hibernate" : "ERROR",
+    "studisu_caching_http_static_content" : "21600",
+    "studisu_caching_http_studienangebote" : "21600",
+    "studisu_wcc_url" : "http://A04.Z8101.soa.ibaintern.de:55160",
+    "studisu_wcc_endpoint" : "/cs/idcplg",
+    "studisu_wcc_service" : "BEN_INTERFACE_GET_BERUF",
+    "bildungsangebotservice_ws_service_location" : "http://esbsaml-ssp2.soa.webapp.edst.ebaintern.de/operativ/unterstuetzung/BildungsangebotService/EDST/BildungsangebotServicePS",
+    "bildungsangebotservice_ws_wsdl_name" : "BildungsangebotService.wsdl",
+    "bildungsangebotservice_ws_auth_type" : "basic",
+    "bildungsangebotservice_ws_policy_name" : "Wespe/standard_consumer_policy",
+    "bildungsangebotservice_ws_auth_user" : "EDST\\InfoSysBuBService",
+    "bildungsangebotservice_ws_auth_password" : "SRG555?kkh",
+    "dkzservice_ws_service_location" : "http://esbsaml-ssp2.soa.webapp.edst.ebaintern.de/basis/systematiken/DKZService/EDST/DKZServicePS",
+    "dkzservice_ws_wsdl_name" : "DKZService.wsdl",
+    "dkzservice_ws_auth_type" : "basic",
+    "dkzservice_ws_policy_name" : "Wespe/standard_consumer_policy",
+    "dkzservice_ws_auth_user" : "EDST\\InfoSysBuBService",
+    "dkzservice_ws_auth_password" : "SRG555?kkh"
+  },
+  "secrets": {
+    "SAML_CERTIFICATE": {
+        "source": "saml_certificate"
+    },
+    "SAML_KEY": {
+        "source": "saml_key"
+    }
+  },
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "upgradeStrategy": {
+    "maximumOverCapacity": 1,
+    "minimumHealthCapacity": 1
+  },
+  "constraints": []
+}

@@ -1,0 +1,34 @@
+<div *ngIf="!mobile" class="row {{cssClass}}">
+  <h3 class="ba-icon ba-icon-{{icon}} col-xs-12" id="{{id}}_label"><img class="print-only ba-icon-{{icon}}" /><div class="col-xs-10">{{title}}</div></h3>
+  <ng-container *ngTemplateOutlet="parentTemplate"></ng-container>
+</div>
+
+<div *ngIf="mobile" class="{{cssClass}}">
+  <div aria-multiselectable="true" role="tablist" class="ba-accordion">
+    <!-- start Accordion -->
+    <div class="panel">
+      <div class="panel-heading" id="accordion-{{id}}-heading">
+        <h3 class="panel-title">
+          <a [attr.aria-controls]="'accordion-' + id + '-panel'"
+            [attr.aria-expanded]="false"
+            [attr.aria-label]="'Inhalte zu Titel'"
+            class="collapsed ba-icon ba-icon-{{icon}}"
+            data-toggle="collapse"
+            href="#accordion-{{id}}-panel"
+            role="button">
+            {{title}}
+          </a>
+        </h3>
+      </div>
+      <div [attr.aria-labelledby]="'accordion-' + id + '-heading'"
+        class="panel-collapse collapse"
+        id="accordion-{{id}}-panel"
+        role="tabpanel">
+        <div class="panel-body row">
+          <ng-container *ngTemplateOutlet="parentTemplate"></ng-container>
+        </div>
+      </div>
+    </div>
+    <!-- ende Accordion -->
+  </div>
+</div>

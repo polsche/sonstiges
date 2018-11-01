@@ -40,7 +40,14 @@ public class StbackController {
 		return stundenEintragRepository.findAll();
 	}
 	
-	@GetMapping("/eintraege/{id}")
+	@GetMapping("/eintraege/{monat}/{jahr}")
+	public List<StundenEintrag> findSEbyMonatJahr(
+			@PathVariable(value = "monat") String monat,
+			@PathVariable(value = "jahr") String jahr) {
+		return stundenEintragRepository.findAllByMonatJahr(monat, jahr);
+	}
+	
+	@GetMapping("/eintraege/id/{id}")
 	public ResponseEntity<StundenEintrag> getSEById(@PathVariable(value = "id") Long noteId) {
 		Optional<StundenEintrag> note = stundenEintragRepository.findById(noteId);
 	    if(note == null) {
@@ -64,8 +71,9 @@ public class StbackController {
 	}
 	
 	@PutMapping("/eintraege/{id}")
-	public ResponseEntity<StundenEintrag> updateNote(@PathVariable(value = "id") Long noteId, 
-	                                       @RequestBody StundenEintrag noteDetails) {
+	public ResponseEntity<StundenEintrag> updateNote(	@PathVariable(value = "id") Long noteId, 
+	                                       				@RequestBody StundenEintrag noteDetails) {
+		
 		Optional<StundenEintrag> noteOptional = stundenEintragRepository.findById(noteId);
 		StundenEintrag note = noteOptional.get();
 	    if(note == null) {

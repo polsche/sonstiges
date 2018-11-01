@@ -1,0 +1,37 @@
+// Style-Angaben für unsere Tag-Cloud
+// erfreulicherweise "kann" CSS die selbst definierten NG-Tags...
+ba-studisu-collapsable {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    .studisu-collapsable-container {
+        transition-property: height;
+        //  transition duration must also be set inside
+        //  the component to achieve proper transitions from
+        //  height 0 to auto and vice versa
+        transition-duration: 400ms;
+        margin-bottom: 20px;
+    }
+
+    .studisu-collapsable-link {
+        display: inline-block;
+        bottom: 0;
+
+        &::before,
+        &::after {
+            text-decoration: none !important;
+            font-size: 0.8rem;
+            margin: 5px;
+        }
+
+        &.disclosed::after {
+            @include icon('chevron-up', 14px);
+        }
+        &.collapsed::after {
+            @include icon('chevron-down', 14px);
+        }
+        
+    }
+}

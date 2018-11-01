@@ -15,5 +15,9 @@ public interface StundenEintragRepository extends JpaRepository<StundenEintrag, 
 	@Query("select s from StundenEintrag s where s.benutzer.name = ?1 "
 			+ "and YEAR(s.datum) = ?2 and MONTH(s.datum) = ?3")
 	List<StundenEintrag> findByBenutzerJahrMonat(String benutzer, Integer jahr, Integer monat);
+	
+	@Query("select s from StundenEintrag s where"
+			+ " SUBSTRING(s.datum, 4, 2) = ?1 and  SUBSTRING(s.datum, 7, 4) = ?2")
+	List<StundenEintrag> findAllByMonatJahr(String monat, String jahr);
 
 }

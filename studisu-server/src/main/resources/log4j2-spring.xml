@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Konfiguration über die beiden folgenden Environment-Variablen:
+
+    - STUDISU_LOG4J_TYPE
+      Gibt an, für welchen Logtyp der passende Appender verwendet werden soll.
+      Definiert sind:
+      - WLS
+        Für Weblogic-Server mit File-Logging in drei Dateien (Default, wenn Environment-Variable nicht angegeben)
+      - container
+        Für Container-Plattform, loggt JSON-Format auf Console (stdout).
+      - dev
+        Für Entwickler, loggt Textformat ohne Datumsangabe auf Console (stdout).
+
+      HINWEIS: Wenn die Env.-Variable mit einem anderen Wert gesetzt wird, wird *nichts* geloggt!!!
+
+    - STUDISU_LOG4J_LOGLEVEL
+      Gibt den Loglevel ("info", "debug" usw. an). Wenn die Env.-Variable nicht gesetzt wird, wird Level
+      "info" geloggt.
+
+    Für den Weblogic-Server muss damit nichts konfiguriert werden; hier funktionieren die Defaults.
+-->
+<Configuration monitorInterval="60">
+    <Appenders>
+        <!-- Appender für die Ausgabe von JSON-Logeinträgen im Container -->
+        <Console name="JSON_STDOUT" target="SYSTEM_OUT">
+		<!--
+            <JsonLayout complete="false" compact="false" includeStacktrace="false" objectMessageAsJsonObject="false">
+                <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}"/>
+                <KeyValuePair key="correlationId" value="$${ctx:correlationId:-NONE}"/>
+            </JsonLayout>
+		-->
+			<PatternLayout>
+				<ScriptPatternSelector>
+					<Script name="PatternSelector" language="JavaScript"><![CDATA[
+						var result = null;
+						if (logEvent.getThrown() != null) {
+							result = "Exception";
+						}
+						result; // Liefert das Ergebnis zurück!
+						]]>
+					</Script>
+					<DefaultPattern>{"timestamp":"$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}", "context": "studisu.infosysbub", "index-name": "infosysbub", "thread":"%tn", "logger":"%c", "level":"%p", "correlationId":"$${ctx:correlationId:-NONE}", "service":"${env:MARATHON_APP_LABEL_HAPROXY_0_PATH}", "hostname":"${env:HOSTNAME:-}${env:COMPUTERNAME:-}", "mesosTaskId":"${env:MESOS_TASK_ID}", "pid":%pid{-1}, "threadId":%T, "threadPriority":%tp, "message":"%enc{%m}{JSON}"}%n</DefaultPattern>
+					<PatternMatch key="Exception">
+						<Pattern>{"timestamp":"$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}", "context": "studisu.infosysbub", "index-name": "infosysbub", "thread":"%tn", "logger":"%c", "level":"%p", "correlationId":"$${ctx:correlationId:-NONE}", "service":"${env:MARATHON_APP_LABEL_HAPROXY_0_PATH}", "hostname":"${env:HOSTNAME:-}${env:COMPUTERNAME:-}", "mesosTaskId":"${env:MESOS_TASK_ID}", "pid":%pid{-1}, "threadId":%T, "threadPriority":%tp, "message":"%enc{%m}{JSON}", "thrownClassName":"%throwable{short.className}", "thrownMethodName":"%throwable{short.methodName}", "thrownFileName":"%throwable{short.fileName}", "thrownLineNumber":%throwable{short.lineNumber}, "thrownMessage":"%enc{%throwable{short.message}}{JSON}", "thrownStackTrace":"%enc{%throwable{50}}{JSON}"}%n</Pattern>
+					</PatternMatch>
+				</ScriptPatternSelector>
+			</PatternLayout>
+        </Console>
+
+        <!-- Appender für die Ausgabe von Textlogs auf den Entwickler-Servern
+             (setze Env.-Variable STUDISU_LOG4J_TYPE auf Wert "dev" -->
+        <Console name="TEXT_STDOUT" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{[HH:mm:ss.SSS]} [%-5level] [%t] %c (%F:%L) -  %replace{%msg}{\r\n|\n|\r}{&#13;&#10;    ...>}%n"/>
+        </Console>
+
+        <!-- Appender für die Standard-Logausgabe auf den WebLogic-Servern -->
+        <RollingFile name="RollingFile-Appender"
+                     fileName="${sys:logroot}/infosysbub-studisu.log"
+                     filePattern="${sys:logroot}/infosysbub-studisu_%d{yyyy-MM-dd}.log">
+            <PatternLayout
+                    pattern="%d{[dd.MM.yyyy] [HH:mm:ss.SSS]} [%-5level] [%t] %c (%F:%L) -  %replace{%msg}{\r\n|\n|\r}{&#13;&#10;    ...>}%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <!-- Appender für die Error-Logausgabe auf den WebLogic-Servern -->
+        <RollingFile name="RollingFile-Error-Appender"
+                     fileName="${sys:logroot}/infosysbub-studisu.error.log"
+                     filePattern="${sys:logroot}/infosysbub-studisu.error_%d{yyyy-MM-dd}.log">
+            <PatternLayout
+                    pattern="%d{[dd.MM.yyyy] [HH:mm:ss.SSS]} [%-5level] [%t] %c (%F:%L) -  %replace{%msg}{\r\n|\n|\r}{&#13;&#10;    ...>}%n"/>
+            <ThresholdFilter level="ERROR"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <!-- Appender für die Pfcr-Logausgabe (Correlation-IDs) auf den WebLogic-Servern -->
+        <RollingFile name="RollingFile-Pfcr-Appender" fileName="${sys:logroot}/pfcr.log"
+                     filePattern="${sys:logroot}/pfcr.%d{yyyy-MM-dd}.log">
+            <PatternLayout
+                    pattern="%replace{%msg}{\r\n|\n|\r}{&#13;&#10;    ...>}%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <!-- Router-Appender für Standard-Logs -->
+        <Routing name="StandardRouting">
+            <Routes pattern="${env:STUDISU_LOG4J_TYPE:-WLS}">
+                <Route key="WLS" ref="RollingFile-Appender"/>
+                <Route key="container" ref="JSON_STDOUT"/>
+                <Route key="dev" ref="TEXT_STDOUT"/>
+            </Routes>
+        </Routing>
+
+        <!-- Router-Appender für Error-Logs (nur WLS) -->
+        <Routing name="ErrorRouting">
+            <Routes pattern="${env:STUDISU_LOG4J_TYPE:-WLS}">
+                <Route key="WLS" ref="RollingFile-Error-Appender"/>
+            </Routes>
+        </Routing>
+
+        <!-- Router-Appender für Pfcr-Logs (nur WLS) -->
+        <Routing name="PfcrRouting">
+            <Routes pattern="${env:STUDISU_LOG4J_TYPE:-WLS}">
+                <Route key="WLS" ref="RollingFile-Pfcr-Appender"/>
+            </Routes>
+        </Routing>
+
+    </Appenders>
+
+    <Loggers>
+		
+		<!-- STUDISU-355:
+		Der PFCR-Logger operiert auf Level INFO, nicht wie andere Debug; aus diesem Grund eigene Log-Konfiguration,
+		damit die PFCR-Log nicht mit Debug-Meldungen zugemüllt wird.		
+		-->
+		<Logger name="de.ba.bub.studisu.pfcr" level="INFO" additivity="false">
+			<AppenderRef ref="PfcrRouting"/>
+		</Logger>
+		
+		<!-- trying to reduce loglevel as root logger doesnt seem to work out -->
+		<!--
+		<Logger name="de.ba" level="DEBUG" />
+		<Logger name="de.ba.bub" level="DEBUG" />
+		<Logger name="de.ba.bub.studisu.common.integration.bildungsangebotservice.BildungsangebotServiceClient" level="TRACE" />
+		
+		<Logger name="com.sun.xml" level="DEBUG" />
+
+		<Logger name="com.sun.xml.ws.transport.http.client.HttpTransportPipe" level="DEBUG" />
+		<Logger name="com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe" level="DEBUG" />
+		<Logger name="com.sun.xml.ws.transport.http.HttpAdapter" level="DEBUG" />
+		<Logger name="com.sun.xml.internal.ws.transport.http.HttpAdapter" level="DEBUG" />
+		-->
+
+        <Root level="${env:STUDISU_LOG4J_LOGLEVEL:-debug}">
+            <AppenderRef ref="StandardRouting"/>
+            <AppenderRef ref="ErrorRouting"/>
+        </Root>
+		
+    </Loggers>
+</Configuration>

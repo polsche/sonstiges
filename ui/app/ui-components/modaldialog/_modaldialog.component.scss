@@ -1,0 +1,12 @@
+.modal-dialog {
+  .modal-header {
+    .ba-studisu-big-red-icon {
+      font-size: 3.375em;
+      color: $color-red;
+      cursor: default;
+    }
+    h1, h2 {
+      padding: 0 25px; // Platz für X, aber immer noch zentriert unter dem Icon
+    }
+  }
+}

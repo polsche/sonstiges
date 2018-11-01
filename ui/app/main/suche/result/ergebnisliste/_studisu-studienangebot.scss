@@ -1,0 +1,145 @@
+._studienangebot_ {
+  clear: both; // Keeps all floating objects inside the entry's box.
+  margin-bottom: 10px;
+  .__visited_icon_ {
+    font-size: 2.5em;
+    color: $color-grey-darker;
+    float: right;
+    margin-right: 0.7em;
+  }
+  h4.ba-icon:before,
+  div.ba-icon:before {
+    margin-right: 5px;
+    margin-top: 2px;
+  }
+  .__inhalt_ {
+    max-height: 400px; // only restricts in case of nonsensical data!
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .__bezeichnung-header_ {
+    margin-bottom: 10px;
+  }
+  .__bezeichnung-value_ {
+    margin-top: 0;
+  }
+  .__anbieter_,
+  .__orte_,
+  .__bundesland_ {
+    color: $color-blue-darkest;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    & > div {
+      width: 100%;
+    }
+  }
+  .__btn-detail_ {
+    bottom: 15px;
+    height: 31px;
+    padding: 5px 15px;
+    min-width: 0;
+    @include desktop-min {
+      position: absolute;
+      right: 0;
+    }
+    &:after {
+      margin-top: -2px;
+    }
+  }
+
+  ._tag-cloud {
+    position: relative;
+    border-top: 4px dotted $color-grey-light;
+    padding: 22px 10px 0 10px;
+    margin-bottom: -10px; // Abstand nach unten nicht zu gross
+  }
+  .__tags_ {
+    @include desktop-min {
+      width: calc(66.6667% + 30px); // Optimierte lg8-Breite
+      display: inline-block;
+    }
+    @include tablet-max {
+      &.no-studiecheck {
+        width: 100%;
+        padding-bottom: 20px;
+      }
+    }
+    @include pseudo-tags();
+  }
+  ._studienangebot_linktags {
+    @include desktop-min {
+      width: calc(33.3333% - 31px); // Optimierte lg4-Breite
+      float: right;
+      padding-bottom: 70px;
+    }
+    @include phablet-max {
+      padding-bottom: 25px;
+    }
+    .linktag {
+      display: inline-block;
+      margin: 0 0.5rem 0.5rem 0.5rem;
+      &.linktag_osa {
+        padding-left: 3px;
+        width: 98px;
+        height: 32px;
+      }
+      &.linktag_studicheck {
+        width: 154px;
+        height: 29px;
+      }
+    }
+  }
+  ._orts-abstaende {
+    max-width: 100%;
+    ._abstand-tag {
+      border: 1px solid $color-grey-darker;
+      border-radius: 3px;
+      background-color: $color-grey-light;
+      max-width: 100%;
+      font-size: 0.8rem;
+      display: inline-block;
+      margin: 0 6px 0 0;
+      padding: 0 6px 0 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:before {
+        content: "\2299";
+        margin-left: -13px;
+        margin-top: -1px;
+        position: absolute; // center icon
+      }
+      span.ort {
+        padding-left: 4px;
+      }
+      span.abstand {
+        margin-left: 1px;
+        padding-left: 4px;
+        border-left: 1px solid $color-grey;
+      }
+    }
+  }
+}
+
+#weitere-angebote.text-center {
+  margin-bottom: 20px; // für den Abstand zur Nav-Box
+}
+
+//	bis 1023px
+@include tablet-max() {
+  ._studienangebot_ {
+    .__tags_ {
+      border-top: none;
+    }
+    .ba-fehlermeldung {
+      background-color: #ededed;
+      padding-bottom: 8.75px;
+    }
+  }
+  #weitere-angebote.text-center {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+}

@@ -1,0 +1,115 @@
+ba-studisu-navtabbar.studisu-link-in-sidebar {
+  display: none;
+  @include tablet-max() {
+    &.mobile {
+      display: block;
+    }
+    #linkbarInformationFooter {
+      margin: 10px 10px 30px 10px;
+    }
+  }
+  @include desktop-min() {
+    &.desktop {
+      display: block;
+    }
+    #linkbarInformationFooter {
+      margin: 30px 10px;
+    }
+  }
+}
+
+/*
+#linkbarInformationFooter {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: -10px;
+  margin-right: -10px;
+  margin-top: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: block;
+}
+
+#linkbarInformationFooter > nav {
+  margin-left: 0;
+  margin-right: 0;
+  display: flex;
+  align-items: stretch;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+#linkbarInformationFooter > nav > div {
+  flex-basis: 25%;
+  max-width: 25%;
+  width: 25%;
+  margin: 0;
+  padding: 0;
+  align-items: inherit;
+  float: none;
+  position: relative;
+  min-height: 1px;
+  background-color: #ffffff;
+}
+
+#linkbarInformationFooter > nav > div > a {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-flow: row wrap;
+  color: #2a3444;
+  min-height: 50px;
+}
+
+#linkbarInformationFooter > nav > div > a > h2 {
+  padding: 10px 20px;
+  font-size: 1.55rem;
+  line-height: 1.27;
+  font-weight: 400;
+  width: 100%;
+  border-right: 2px dotted #2a3444;
+  text-align: center;
+}
+
+#linkbarInformationFooter > nav > div:last-of-type > a > h2 {
+  border-right: none;
+}
+
+#linkbarInformationFooter > nav > div > a:hover {
+  color: #a1010e;
+  text-decoration: underline;
+}
+
+@include tablet() {
+  #linkbarInformationFooter > nav > div {
+    flex-basis: 50%;
+    max-width: 50%;
+    width: 50%;
+    margin-bottom: 20px;
+  }
+  #linkbarInformationFooter > nav > div:nth-of-type(even) > a > h2 {
+    border-right: none;
+  }
+}
+
+@include phablet-max() {
+  #linkbarInformationFooter > nav {
+    margin-bottom: 0px;
+  }
+  #linkbarInformationFooter > nav > div {
+    flex-basis: 100%;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  #linkbarInformationFooter > nav > div > a {
+    padding-top: 8px;
+  }
+
+  #linkbarInformationFooter > nav > div > a > h2 {
+    border-right: none;
+  }
+}
+*/
