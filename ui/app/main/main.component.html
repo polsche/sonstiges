@@ -1,9 +1,0 @@
-<ba-header [getUrl]="headerUrl" id="seitenanfang"></ba-header>
-<main class="ba-container">
-  <router-outlet></router-outlet>
-  <ba-studisu-versioninfo></ba-studisu-versioninfo>
-</main>
-<ba-studisu-modal-dialog [modalData]="modalData" [errorModal]="true"></ba-studisu-modal-dialog>
-<ba-studisu-modal-hinweisdialog #infodialog></ba-studisu-modal-hinweisdialog>
-<a class="ba-scroll-to-top print-hide" [ngClass]="{'visible': isScrollButtonVisible }" title="Zum Seitenanfang springen" aria-hidden="true" (click)="goTo('seitenanfang')"></a>
-<ba-footer [getUrl]="footerUrl"></ba-footer>
